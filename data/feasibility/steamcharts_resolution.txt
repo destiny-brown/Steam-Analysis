@@ -1,0 +1,55 @@
+SteamCharts resolution check
+Run at 2026-11-05T07:27:26Z
+Source: https://steamcharts.com/app/{appid}/chart-data.json
+One request per second. Raw files are saved beside this report.
+
+Counter-Strike 2 (730)
+  points: 950
+  span: 2012-07-01 to 2026-11-05
+  monthly: 2012-08-01 to 2026-08-01 (169 steps)
+  daily: 2026-08-09 to 2026-10-06 (59 steps)
+  hourly: 2026-10-06 to 2026-11-05 (719 steps)
+  zero player counts: 3 overall, 3 in the last 30 days
+
+Dota 2 (570)
+  points: 950
+  span: 2012-07-01 to 2026-11-05
+  monthly: 2012-08-01 to 2026-08-01 (169 steps)
+  daily: 2026-08-09 to 2026-10-06 (59 steps)
+  hourly: 2026-10-06 to 2026-11-05 (719 steps)
+  zero player counts: 3 overall, 3 in the last 30 days
+
+Palworld (1623730)
+  points: 812
+  span: 2024-01-01 to 2026-11-05
+  monthly: 2024-02-01 to 2026-08-01 (31 steps)
+  daily: 2026-08-09 to 2026-10-06 (59 steps)
+  hourly: 2026-10-06 to 2026-11-05 (719 steps)
+  zero player counts: 3 overall, 3 in the last 30 days
+
+Valheim (892970)
+  points: 847
+  span: 2021-02-01 to 2026-11-05
+  monthly: 2021-03-01 to 2026-08-01 (66 steps)
+  daily: 2026-08-09 to 2026-10-06 (59 steps)
+  hourly: 2026-10-06 to 2026-11-05 (719 steps)
+  zero player counts: 3 overall, 3 in the last 30 days
+
+Terraria (105600)
+  points: 950
+  span: 2012-07-01 to 2026-11-05
+  monthly: 2012-08-01 to 2026-08-01 (169 steps)
+  daily: 2026-08-09 to 2026-10-06 (59 steps)
+  hourly: 2026-10-06 to 2026-11-05 (719 steps)
+  zero player counts: 3 overall, 3 in the last 30 days
+
+Verdict
+  The same three layers show up on every game, so this is how SteamCharts
+  publishes the file, not a quirk of one title.
+  Monthly points run from the game's early history through 1 Aug 2026.
+  Daily points run from 9 Aug 2026 through 6 Oct 2026, about eight weeks.
+  Hourly points run from 6 Oct 2026 to the download day, about 30 days.
+  A next-week model can use the daily stretch as a sampled peak and the
+  hourly stretch as a real peak. The monthly stretch is context only.
+  Our own hourly recorder is what extends the real-peak series past today.
+  Zero counts at the same moments on every game are outages to drop later.
