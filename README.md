@@ -107,6 +107,27 @@ From each game's SteamCharts series, Destiny's script fills:
 
 Zeros stay in `n_zeros`. An isolated zero, sitting next to ordinary hours, is dropped from `peak` and `mean_players`, because the history check found the same zero timestamps on every game. `peer_median_growth` is the median of the other games' `wow_growth` inside Soha's group. `news_count` and `days_since_news` come from the Steam news timestamps. No column outside this table goes into the model.
 
+`wow_growth`, `growth_4w`, `peak`, and `median_4w` are built from the same player series, so they move together. Ridge is in the ladder for that reason. A coefficient is not the effect of a sale or a peer game. Sienna's calendar comparison and Soha's peer comparison are the interpretation.
+
+## What a high mark looks like
+
+The assessment standard marks workload, reasoning, the talk, and the report. Twitch is not required. Writing down why it cannot be used is part of the workload and reasoning marks. The mark drops if the report apologizes for Twitch and then shows one model with a large R² on the raw player count.
+
+The spoken and written order is:
+
+1. One player chart for a week the class can recognize, with the Sunday cutoff marked. Sienna chooses the week from the calendar. Soha writes the question that follows it.
+2. Why the comparison is the unchanged peak. A random 80/20 split would train on later weeks of the same game, so the split is by time. Training R² is not the headline, because extra features can raise it without helping the test weeks.
+3. Where the data came from and what was refused: the live Steam endpoint, the three SteamCharts layers, the zero-count outages, and Twitch.
+4. A histogram of weekly log growth on the training weeks, with the surge rule drawn on it and the base rate written beside it. If surges are rare, say so and let the growth error carry the result.
+5. Sienna's sale and holiday comparison, then Soha's peer comparison.
+6. The model ladder with the same target, the same split, and the same error. The error is the mean absolute error of log growth. Next to it, report that error divided by the unchanged-peak error. Below 1 means the model beat the baseline.
+7. The same XGBoost three times: full, calendar removed, peers removed.
+8. Two cases from the historical test. One should be a miss if the test weeks contain one.
+9. The live week, filled on 16 November from the file saved on 8 November.
+10. Limits, plus what a person checked by hand: three SteamCharts pages, five unchanged-peak errors, and the sealed forecast file.
+
+Destiny saves the plots and tables. Sienna and Soha copy numbers from those files into their own report files. They do not calculate a second set of scores.
+
 ## Start tonight, Thursday 5 November
 
 ### Destiny
@@ -136,13 +157,17 @@ Friday evening, 30 minutes together. Sienna shows the calendar. Soha shows the p
 
 Destiny builds `data/processed/week_panel.csv` for weeks from 10 August through 1 November, plus the feature row for the week of 2–8 November with `next_peak` left empty. Join Sienna's calendar and Soha's peer file. Push the csv.
 
-Sienna, on training weeks only, compares sale weeks and holiday weeks with ordinary weeks. Write the player-growth difference in `analysis/calendar_notes.md`. Check three sale or holiday dates against the SteamCharts page for Counter-Strike 2 (`730`), Palworld (`1623730`), and one smaller game.
+Sienna, on training weeks only, plots the histogram of `log_growth`, marks the surge rule, and writes the base rate in `analysis/calendar_notes.md`. She also compares sale weeks and holiday weeks with ordinary weeks. Check three sale or holiday dates against the SteamCharts page for Counter-Strike 2 (`730`), Palworld (`1623730`), and one smaller game. Pick the week that will open the talk.
 
 Soha, on training weeks only, checks whether a game's growth moves with its peers. Write the comparison in `analysis/peer_notes.md`, including five games where you also compute the unchanged-peak error by hand. Count how often the peer median and the game move in the same direction.
 
 ## Saturday 7 November
 
-Destiny runs the models in order. After each one, write the validation error to `model/results/validation.csv` and stop. Before the next model starts, Sienna adds one sentence to `analysis/decisions_calendar.md` about the calendar columns, and Soha adds one sentence to `analysis/decisions_peers.md` about the peer column. Then Destiny scores the two historical test weeks once and saves `model/results/test.csv`. If Chronos-2 small does not install, Destiny writes the error in `model/results/chronos_note.txt` and the four models that ran are the submitted ladder.
+Destiny runs the models in order. After each one, write the training error and the validation error to `model/results/validation.csv` and stop. Before the next model starts, Sienna adds one sentence to `analysis/decisions_calendar.md` about the calendar columns, and Soha adds one sentence to `analysis/decisions_peers.md` about the peer column. Then Destiny scores the two historical test weeks once and saves `model/results/test.csv` with the mean absolute error of log growth and that error divided by the unchanged-peak error. He also saves a predicted-against-actual plot for those test weeks.
+
+After the full XGBoost score exists, Destiny fits that same model twice more: once without the calendar columns, once without `peer_median_growth`. Save the three test errors in `model/results/ablation.csv`. This is the table that says whether the calendar and the peer groups changed the result.
+
+Try Chronos-2 small, zero-shot, with the context cut at Sunday. If it does not install, write the error verbatim in `model/results/chronos_note.txt`. That file is part of the report. The course method is the foundation model, so a skipped attempt with no trace is a gap. The four models that ran remain the ladder.
 
 The ladder, and the only question each step answers:
 
@@ -162,9 +187,11 @@ The latest inputs that forecast may use are from the week of 2–8 November.
 
 ## Monday 10 November through Sunday 15 November
 
-Sienna finishes `report/02_data_and_calendar.md` and `report/slides_sienna.md`: data layers, calendar, her case study, and a blank live-week line. Soha finishes `report/01_question_and_peers.md` and `report/slides_soha.md`: question, peer momentum, her case study, and a blank live-week line. On Sunday 15 November they read both drafts once and agree the spoken order: question, data, calendar, peers, model ladder, two cases, blank live week, limits. Destiny does not retune the model after Sunday 8 November.
+Sienna finishes `report/02_data_and_calendar.md` and `report/slides_sienna.md`. Her part opens on the chosen player chart, then the data-quality story, the histogram and surge base rate, the calendar comparison, her case, and a blank live-week line. Soha finishes `report/01_question_and_peers.md` and `report/slides_soha.md`. Her part is the question, why the split is by time, the unchanged-peak comparison, the peer result, the ablation sentence copied from `ablation.csv`, her case, and a blank live-week line.
 
-The limits section says these things in plain sentences: about twelve usable weeks, 24 games, daily samples are not the true hourly peak, Twitch was left out because it has no history the model can train on, Steam news is the attention signal instead, SullyGnome was read by hand for at most one example, and the study does not show that a patch or a stream caused the surge.
+On Sunday 15 November they read both drafts aloud in the order listed under "What a high mark looks like." Destiny does not retune the model after Sunday 8 November.
+
+The limits, written in Soha's file and spoken by both, are: about twelve usable weeks, 24 games, daily samples are not the true hourly peak, Twitch was left out because it has no history the model can train on, Steam news is the attention signal, SullyGnome was read by hand for at most one example, momentum columns are correlated, and the study does not show that a sale, a news post, or a peer game caused the surge.
 
 ## Monday 16 November
 
@@ -187,7 +214,7 @@ Read README.md and collect/games.csv. The locked split is in the README: train t
 
 Build data/processed/week_panel.csv with only the columns listed in the README. Compute wow_growth, growth_4w, median_4w, mad_4w, mean_players, peak, n_samples, and n_zeros from the SteamCharts files. Compute peer_median_growth from analysis/peers.csv, leaving the game itself out. Compute news_count and days_since_news from data/news/. Join sale and holiday flags from analysis/calendar.csv. Do not add Twitch columns or any column that is not in the README. Drop isolated zero player counts from the peak and the mean, and keep them in n_zeros. A feature for week t may use only timestamps inside week t or earlier.
 
-Then add model/train.py. Fit, in order, unchanged-peak, weekday-pattern, ridge, and shallow XGBoost. Read validation error from model/results/validation.csv before fitting the next model. Refuse to fit on weeks starting 19 October 2026 or later. After those four scores exist, try Chronos-2 small zero-shot with context cut at Sunday, and if the install fails write model/results/chronos_note.txt.
+Then add model/train.py. Fit, in order, unchanged-peak, weekday-pattern, ridge, and shallow XGBoost. Write training and validation mean absolute error of log growth to model/results/validation.csv before fitting the next model. Refuse to fit on weeks starting 19 October 2026 or later. Score the historical test once into model/results/test.csv, including each model's error divided by the unchanged-peak error, and save a predicted-against-actual plot. Then fit the same XGBoost without calendar columns and without peer_median_growth, and save model/results/ablation.csv. After those scores exist, try Chronos-2 small zero-shot with context cut at Sunday, and if the install fails write the error verbatim in model/results/chronos_note.txt.
 
 On Sunday 8 November only, write data/live/forecast_2026-11-09.csv with emitted_at_utc, appid, name, predicted_log_growth, predicted_peak, and model_name. Do not edit that file again.
 ```
@@ -203,7 +230,7 @@ After data/processed/week_panel.csv exists, compare sale and holiday weeks with 
 
 When model/results/validation.csv gains a row, add one sentence to analysis/decisions_calendar.md about the calendar columns. After model/results/test.csv exists, write one case in analysis/case_calendar.md for a week when a sale or holiday was already public, using only columns known that Sunday, and copy the errors from test.csv.
 
-Write report/02_data_and_calendar.md and report/slides_sienna.md from those files. Leave the live-week line blank until 16 November, then fill it from model/results/live_week.csv only.
+Write report/02_data_and_calendar.md and report/slides_sienna.md in this order: one recognizable player chart with the Sunday cutoff marked, the data-quality story, the training-week histogram of log growth with the surge base rate, the calendar comparison, your case, and a blank live-week line. State that Twitch was omitted because the API has no history. Leave the live-week line blank until 16 November, then fill it from model/results/live_week.csv only.
 ```
 
 ### Soha
@@ -217,7 +244,7 @@ After data/processed/week_panel.csv exists, measure on training weeks how often 
 
 When model/results/validation.csv gains a row, add one sentence to analysis/decisions_peers.md about the peer column. After model/results/test.csv exists, write one case in analysis/case_peers.md where the peer median and the game agreed, or where they did not. Use only columns known that Sunday, and copy the errors from test.csv.
 
-Write report/01_question_and_peers.md and report/slides_soha.md from those files. Include the limits: about twelve usable weeks, 24 games, daily samples are not true hourly peaks, Twitch is not in the model, and the project does not show that a patch or a peer game caused a surge. Leave the live-week line blank until 16 November, then fill it from model/results/live_week.csv only.
+Write report/01_question_and_peers.md and report/slides_soha.md from those files. Explain why the split is by time rather than a random 80/20 split. Copy the test error and the error ratio from model/results/test.csv, and the three XGBoost rows from model/results/ablation.csv. Include the limits: about twelve usable weeks, 24 games, daily samples are not true hourly peaks, Twitch is not in the model, momentum columns are correlated, and the project does not show that a sale or a peer game caused a surge. Leave the live-week line blank until 16 November, then fill it from model/results/live_week.csv only.
 ```
 
 ## Recorder
@@ -232,3 +259,48 @@ python3 collect/collect_once.py --status
 Steam player counts are collected on every run. Twitch collection stays switched off. The Mac schedule is `collect/group18.steamcollector.plist`, at 5 minutes past every hour. The computer has to be awake. Missing hours stay missing.
 
 `collect/feasibility_steamcharts.py` rewrites `data/feasibility/steamcharts_resolution.txt` from the saved JSON. Use `--refresh` only when you intend to download again.
+
+## Checklists
+
+Tick these in order. A later box depends on the file named in the earlier box.
+
+### Destiny
+
+- [ ] Recorder still appending. `python3 collect/collect_once.py --status` shows a fresh Steam run.
+- [ ] `data/feasibility/steamcharts/{appid}.json` exists for all 24 games in `collect/games.csv`.
+- [ ] `data/news/` has the Steam news JSON for those games.
+- [ ] `data/processed/week_panel.csv` uses only the README columns, joins `analysis/calendar.csv` and `analysis/peers.csv`, and leaves `next_peak` empty for the week of 2–8 November.
+- [ ] `model/results/validation.csv` has training and validation error for the unchanged peak, the weekday pattern, ridge, and shallow XGBoost, written before the next model was fit.
+- [ ] `model/results/test.csv` has the test error and the ratio to the unchanged-peak error.
+- [ ] A predicted-against-actual plot exists for the two historical test weeks.
+- [ ] `model/results/ablation.csv` has three rows: full XGBoost, no calendar, no peer column.
+- [ ] `model/results/chronos_note.txt` contains either the Chronos test error or the install error, verbatim.
+- [ ] `data/live/forecast_2026-11-09.csv` was pushed before 23:00 Hong Kong time on 8 November and was not edited after.
+- [ ] On 16 November, after 07:59, `model/results/live_week.csv` compares that file with the recorder.
+
+### Sienna
+
+- [ ] `analysis/calendar.csv` covers 10 August through 15 November, and every sale has an announcement date.
+- [ ] `analysis/calendar_notes.md` says which training weeks are daily or hourly, and which sales or holidays fall in them.
+- [ ] Three dates were checked against the SteamCharts page for games `730`, `1623730`, and one smaller game.
+- [ ] Training-week sale and holiday growth is compared with ordinary weeks in `analysis/calendar_notes.md`.
+- [ ] The training-week histogram of log growth and the surge base rate are in the notes.
+- [ ] `analysis/decisions_calendar.md` has one sentence after each model score.
+- [ ] `analysis/case_calendar.md` uses only columns known that Sunday and copies errors from `test.csv`.
+- [ ] `report/02_data_and_calendar.md` opens with the player chart, then data access, the histogram, the calendar result, and the case.
+- [ ] `report/slides_sienna.md` follows that same order and leaves the live-week line blank until 16 November.
+- [ ] On 16 November, one sentence from `live_week.csv` is added to the report and the last slide.
+
+### Soha
+
+- [ ] `analysis/peers.csv` lists every appid once, and each group has at least three games.
+- [ ] `analysis/peer_notes.md` defines peer momentum as the median `wow_growth` of the other games in the group.
+- [ ] The notes say how often a training-week game moves in the same direction as `peer_median_growth`.
+- [ ] Five unchanged-peak errors were computed by hand and the steps are in `analysis/peer_notes.md`.
+- [ ] `analysis/decisions_peers.md` has one sentence after each model score.
+- [ ] `analysis/case_peers.md` uses only columns known that Sunday and copies errors from `test.csv`.
+- [ ] `report/01_question_and_peers.md` states the question, why the split is by time, the error ratio from `test.csv`, and the three ablation rows.
+- [ ] The limits paragraph includes the short history, the missing Twitch history, correlated momentum columns, and no causal claim.
+- [ ] `report/slides_soha.md` follows that order and leaves the live-week line blank until 16 November.
+- [ ] On 15 November, both drafts were read aloud in the story order above.
+- [ ] On 16 November, one sentence from `live_week.csv` is added to the report and the last slide.
