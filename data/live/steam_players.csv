@@ -71,3 +71,27 @@ collected_at_utc,appid,name,player_count,ok,error
 2026-11-05T09:06:36Z,2073850,THE FINALS,6888,1,
 2026-11-05T09:06:36Z,1599340,Lost Ark,4944,1,
 2026-11-05T09:06:36Z,1203220,NARAKA: BLADEPOINT,31788,1,
+2026-11-05T10:05:16Z,730,Counter-Strike 2,,0,"<urlopen error [Errno 8] nodename nor servname provided, or not known>"
+2026-11-05T10:05:16Z,570,Dota 2,,0,"<urlopen error [Errno 8] nodename nor servname provided, or not known>"
+2026-11-05T10:05:16Z,578080,PUBG: BATTLEGROUNDS,,0,"<urlopen error [Errno 8] nodename nor servname provided, or not known>"
+2026-11-05T10:05:16Z,1172470,Apex Legends,,0,"<urlopen error [Errno 8] nodename nor servname provided, or not known>"
+2026-11-05T10:05:16Z,252490,Rust,,0,"<urlopen error [Errno 8] nodename nor servname provided, or not known>"
+2026-11-05T10:05:16Z,440,Team Fortress 2,,0,"<urlopen error [Errno 8] nodename nor servname provided, or not known>"
+2026-11-05T10:05:16Z,271590,Grand Theft Auto V,,0,"<urlopen error [Errno 8] nodename nor servname provided, or not known>"
+2026-11-05T10:05:16Z,1245620,ELDEN RING,,0,"<urlopen error [Errno 8] nodename nor servname provided, or not known>"
+2026-11-05T10:05:16Z,1086940,Baldur's Gate 3,,0,"<urlopen error [Errno 8] nodename nor servname provided, or not known>"
+2026-11-05T10:05:16Z,1085660,Destiny 2,,0,"<urlopen error [Errno 8] nodename nor servname provided, or not known>"
+2026-11-05T10:05:16Z,381210,Dead by Daylight,,0,"<urlopen error [Errno 8] nodename nor servname provided, or not known>"
+2026-11-05T10:05:16Z,230410,Warframe,44909,1,
+2026-11-05T10:05:16Z,413150,Stardew Valley,37735,1,
+2026-11-05T10:05:16Z,892970,Valheim,21970,1,
+2026-11-05T10:05:16Z,553850,HELLDIVERS 2,18181,1,
+2026-11-05T10:05:16Z,1623730,Palworld,21249,1,
+2026-11-05T10:05:16Z,238960,Path of Exile,2798,1,
+2026-11-05T10:05:16Z,236390,War Thunder,43118,1,
+2026-11-05T10:05:16Z,105600,Terraria,19383,1,
+2026-11-05T10:05:16Z,550,Left 4 Dead 2,12171,1,
+2026-11-05T10:05:16Z,2767030,Marvel Rivals,,0,The read operation timed out
+2026-11-05T10:05:16Z,2073850,THE FINALS,,0,"<urlopen error [Errno 8] nodename nor servname provided, or not known>"
+2026-11-05T10:05:16Z,1599340,Lost Ark,,0,"<urlopen error [Errno 8] nodename nor servname provided, or not known>"
+2026-11-05T10:05:16Z,1203220,NARAKA: BLADEPOINT,,0,"<urlopen error [Errno 8] nodename nor servname provided, or not known>"
