@@ -32,6 +32,7 @@ TEST_END = datetime(2026, 11, 1, tzinfo=timezone.utc)
 FEATURES = [
     "wow_growth",
     "growth_4w",
+    "growth_4w_missing",
     "median_4w",
     "mad_4w",
     "peak",
@@ -43,21 +44,31 @@ FEATURES = [
     "peer_median_growth",
     "news_count",
     "days_since_news",
+    "major_update",
+    "days_since_major_update",
 ]
 
 
 def parse_row(row: dict[str, str]) -> dict:
     week_start = datetime.strptime(row["week_start"], "%Y-%m-%d").replace(tzinfo=timezone.utc)
+    features = {k: float(row[k]) if row.get(k) not in (None, "") else 0.0 for k in FEATURES}
+    # decisions.md 2026-11-05: blank growth_4w means "no trailing window", not zero growth.
+    features["growth_4w_missing"] = 1.0 if row.get("growth_4w", "") == "" else 0.0
+    # decisions.md 2026-11-05: scale-free features for a log-ratio target.
+    peak = float(row["peak"])
+    mean_players = float(row["mean_players"]) if row["mean_players"] else 0.0
+    features["peak"] = math.log(peak) if peak > 0 else 0.0
+    features["mean_players"] = math.log(mean_players) if mean_players > 0 else 0.0
     return {
         "appid": row["appid"],
         "name": row["name"],
         "week_start": week_start,
         "week_start_str": row["week_start"],
         "resolution": row["resolution"],
-        "peak": float(row["peak"]),
+        "peak": peak,
         "next_peak": float(row["next_peak"]) if row["next_peak"] else None,
         "log_growth": float(row["log_growth"]) if row["log_growth"] else None,
-        "features": {k: float(row[k]) if row[k] else 0.0 for k in FEATURES},
+        "features": features,
     }
 
 
@@ -264,7 +275,12 @@ def main() -> None:
 
     # Ablation: full / no calendar / no peer
     ablation_rows = []
-    for name, drop in [("full", []), ("no_calendar", ["sale_this_week", "sale_next_week", "holiday_count"]), ("no_peer", ["peer_median_growth"])]:
+    for name, drop in [
+        ("full", []),
+        ("no_calendar", ["sale_this_week", "sale_next_week", "holiday_count"]),
+        ("no_peer", ["peer_median_growth"]),
+        ("no_major_update", ["major_update", "days_since_major_update"]),
+    ]:
         feats = [f for f in FEATURES if f not in drop]
         X_tr = [[row["features"][k] for k in feats] for row in train]
         X_v = [[row["features"][k] for k in feats] for row in val]

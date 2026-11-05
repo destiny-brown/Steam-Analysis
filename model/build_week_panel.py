@@ -10,6 +10,7 @@ from __future__ import annotations
 import csv
 import json
 import math
+import re
 from collections import defaultdict
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -126,6 +127,47 @@ def load_news_counts() -> dict[str, list[datetime]]:
     return counts
 
 
+MAJOR_UPDATE_RE = re.compile(r"\b(update|patch)\s*\d", re.IGNORECASE)
+MAJOR_UPDATE_KEYWORDS = (
+    "expansion",
+    "dlc",
+    "season",
+    "chapter",
+    "new hero",
+    "new map",
+    "new region",
+    "new agent",
+    "new operator",
+    "free-to-play",
+    "free to play",
+)
+
+
+def is_major_update(title: str) -> bool:
+    """Heuristic from decisions.md (2026-11-05): title signals a content event."""
+    text = title.lower()
+    return bool(MAJOR_UPDATE_RE.search(text)) or any(k in text for k in MAJOR_UPDATE_KEYWORDS)
+
+
+def load_major_news() -> dict[str, list[datetime]]:
+    """Publication times of news posts whose titles look like major updates."""
+    counts = {}
+    if not NEWS_DIR.exists():
+        return counts
+    for path in NEWS_DIR.glob("*.json"):
+        appid = path.stem
+        payload = json.loads(path.read_text())
+        items = payload.get("appnews", {}).get("newsitems", [])
+        stamps = []
+        for item in items:
+            ts = item.get("date") or item.get("posttime")
+            if ts and is_major_update(str(item.get("title", ""))):
+                stamps.append(datetime.fromtimestamp(int(ts), timezone.utc))
+        stamps.sort()
+        counts[appid] = stamps
+    return counts
+
+
 def load_calendar() -> list[dict[str, str]]:
     if not CALENDAR_CSV.exists():
         return []
@@ -142,6 +184,7 @@ def main() -> None:
     OUT_CSV.parent.mkdir(parents=True, exist_ok=True)
     games = read_games()
     news_counts = load_news_counts()
+    major_news = load_major_news()
     calendar = load_calendar()
     peers = load_peers()
 
@@ -266,6 +309,16 @@ def main() -> None:
             if past_stamps:
                 days_since_news = (sunday - past_stamps[-1]).days
 
+            major_update = 0
+            days_since_major_update = ""
+            major_stamps = major_news.get(appid, [])
+            for ts in major_stamps:
+                if week_start <= ts < week_end:
+                    major_update += 1
+            past_major = [ts for ts in major_stamps if ts <= sunday]
+            if past_major:
+                days_since_major_update = (sunday - past_major[-1]).days
+
             out_rows.append(
                 {
                     "appid": appid,
@@ -290,6 +343,8 @@ def main() -> None:
                     "peer_set_size": peer_set_size,
                     "news_count": news_count,
                     "days_since_news": days_since_news,
+                    "major_update": major_update,
+                    "days_since_major_update": days_since_major_update,
                 }
             )
 
@@ -316,6 +371,8 @@ def main() -> None:
         "peer_set_size",
         "news_count",
         "days_since_news",
+        "major_update",
+        "days_since_major_update",
     ]
     with OUT_CSV.open("w", newline="") as handle:
         writer = csv.DictWriter(handle, fieldnames=fieldnames)

@@ -69,6 +69,8 @@ Leave Twitch out of the model. Helix can describe a stream that is live at the m
 
 Steam news replaces it. `ISteamNews/GetNewsForApp` returns patch and event posts with publication times, for the same weeks as the player history. The model sees `news_count` and `days_since_news`. If one case-study week looks like a streaming event, Sienna may open that game's SullyGnome page, write down the hours watched by hand, and Soha can quote that page as an illustration. Those figures never enter `week_panel.csv`.
 
+Steam reviews were the original historical attention series in the proposal. On 5 November 2026 the `appreviews` JSON endpoint returned an unconditional 302 redirect to the store homepage from every client we tried, and SteamSpy exposes only current cumulative totals with no weekly history. Weekly review history is therefore not collectible, and reviews join Twitch on the refused list. The exact probe and response are recorded in `decisions.md`.
+
 ## What to produce
 
 Destiny's model reads one table, `data/processed/week_panel.csv`. One row is one game for one week. Columns:
@@ -94,6 +96,8 @@ Destiny's model reads one table, `data/processed/week_panel.csv`. One row is one
 | `peer_set_size` | How many other games were in that median |
 | `news_count` | Steam news posts with a publication time inside the week |
 | `days_since_news` | Days from the Sunday cutoff back to the latest post on or before that Sunday |
+| `major_update` | News posts in the week whose title matches the major-update heuristic (`decisions.md`, 5 November) |
+| `days_since_major_update` | Days from the Sunday cutoff back to the latest major-update post on or before that Sunday |
 
 Sienna's calendar supplies the sale and holiday flags. Soha's peer file supplies the groups. Destiny's script joins both and computes the player-count columns itself. Soha and Sienna do not calculate those columns and do not add new ones.
 
