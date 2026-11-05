@@ -95,7 +95,17 @@ Destiny's model reads one table, `data/processed/week_panel.csv`. One row is one
 | `news_count` | Steam news posts with a publication time inside the week |
 | `days_since_news` | Days from the Sunday cutoff back to the latest post on or before that Sunday |
 
-Sienna's calendar supplies the sale and holiday flags. Soha's peer file supplies the sets. Destiny's script joins both. Zeros are kept in `n_zeros` and dropped from `peak` when a zero sits next to normal hours, because the same zero timestamps appeared on every game in the history check.
+Sienna's calendar supplies the sale and holiday flags. Soha's peer file supplies the groups. Destiny's script joins both and computes the player-count columns itself. Soha and Sienna do not calculate those columns and do not add new ones.
+
+From each game's SteamCharts series, Destiny's script fills:
+
+- `wow_growth`, short-term momentum: log change in the peak versus the previous week.
+- `growth_4w`, longer momentum: log change in the peak versus four weeks earlier.
+- `median_4w` and `mad_4w`: the trailing four-week median and median absolute deviation of the peak. These describe the recent normal level and how far a week sits from it.
+- `mean_players` and `peak`: the average and the maximum sample in the week.
+- `n_samples` and `n_zeros`: how many observations the week had, and how many were zero.
+
+Zeros stay in `n_zeros`. An isolated zero, sitting next to ordinary hours, is dropped from `peak` and `mean_players`, because the history check found the same zero timestamps on every game. `peer_median_growth` is the median of the other games' `wow_growth` inside Soha's group. `news_count` and `days_since_news` come from the Steam news timestamps. No column outside this table goes into the model.
 
 ## Start tonight, Thursday 5 November
 
@@ -175,7 +185,7 @@ You are helping Destiny on Group 18's Steam spike forecast. Destiny builds the m
 
 Read README.md and collect/games.csv. The locked split is in the README: train through the week ending 4 October 2026, validate 5–18 October, historical test 19 October–1 November, live forecast for 9–15 November sealed on 8 November.
 
-Build data/processed/week_panel.csv from data/feasibility/steamcharts/*.json, data/news/*.json, analysis/calendar.csv, and analysis/peers.csv, using the columns listed in the README. Include news_count and days_since_news. Do not add Twitch columns. Drop isolated zero player counts from the peak, and keep them in n_zeros. A feature for week t may use only timestamps inside week t or earlier.
+Build data/processed/week_panel.csv with only the columns listed in the README. Compute wow_growth, growth_4w, median_4w, mad_4w, mean_players, peak, n_samples, and n_zeros from the SteamCharts files. Compute peer_median_growth from analysis/peers.csv, leaving the game itself out. Compute news_count and days_since_news from data/news/. Join sale and holiday flags from analysis/calendar.csv. Do not add Twitch columns or any column that is not in the README. Drop isolated zero player counts from the peak and the mean, and keep them in n_zeros. A feature for week t may use only timestamps inside week t or earlier.
 
 Then add model/train.py. Fit, in order, unchanged-peak, weekday-pattern, ridge, and shallow XGBoost. Read validation error from model/results/validation.csv before fitting the next model. Refuse to fit on weeks starting 19 October 2026 or later. After those four scores exist, try Chronos-2 small zero-shot with context cut at Sunday, and if the install fails write model/results/chronos_note.txt.
 
