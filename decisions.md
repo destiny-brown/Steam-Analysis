@@ -60,6 +60,38 @@ that remains the honest headline unless the test weeks say otherwise.
 games (PUBG, Apex), which is the expected shape. peers.csv still missing,
 so no_peer still equals full.
 
+**Why each model moved (for the method section):** Ridge gained mostly from
+the log-transform: ridge is linear, raw peaks span 171x across games, and
+logging converts multiplicative scale differences into the additive
+language the log-growth target speaks. XGBoost gained mostly from the
+`growth_4w_missing` indicator (96 of 240 usable rows previously carried a
+fabricated literal 0.0 that trees were splitting on) and from
+`major_update`, its first genuine event feature. Tree splits are invariant
+to monotonic transforms, so the log-transform alone would not have moved
+XGBoost. The calendar ablation sign-flip (removing calendar features hurt
+before the fix, helps after) is the signature of a model that was too
+overfit to hear real signal over the garbage. Baseline and weekday-pattern
+scores are unchanged, as expected: neither reads the feature matrix, so
+their stability confirms the edits did not leak into the target pipeline.
+
+**For the report's data-access section:** This is the second time the
+project hit the same wall in different clothing: Twitch has history we
+cannot access; reviews had access that no longer exists. Both refusals
+have the same root cause — features that depend on platforms' goodwill
+toward unofficial data access, and that goodwill can vanish mid-project.
+The data-science pipeline does not start at cleaning; it starts at
+discovering which doors are still open. (`appreviews` was never an
+official documented endpoint; it was the storefront's internal JSON feed
+that the community reused until nginx began issuing an unconditional 302.
+The documented ISteamNews and player-count APIs worked throughout.)
+
+**For the talk:** the error metric sentence, to preempt confusion: "Our
+error metric is MAE of log-growth, where lower is better; we compare each
+model against the unchanged-peak baseline's error, so a ratio below 1
+means the model added value." In plain terms, exp(MAE) is the typical
+multiplier error: baseline 0.0895 is about +/-9.4%, ridge 0.0955 about
++/-10%, XGBoost 0.1099 about +/-11.6%.
+
 ## 2026-11-05 — Destiny (with AI pair)
 
 **Validation MAE (log-growth), after rebuilding the panel with `analysis/calendar.csv` (commit 90e48c7):**
