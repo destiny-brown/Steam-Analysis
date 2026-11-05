@@ -57,10 +57,17 @@ These do not change after Friday 6 November.
 - Train on weeks ending through 4 October 2026. Validate on 5–11 October and 12–18 October. The historical test, touched once, is 19–25 October and 26 October–1 November.
 - The live forecast uses information through Sunday 8 November and predicts 9–15 November.
 - A Steam sale counts only when its announcement date is already public at the Sunday cutoff.
-- SullyGnome is a website you read for one example. It is not downloaded or scraped. The owner asks people not to scrape it.
+- Twitch is not a model input. The API only shows live streams, and SullyGnome has no public export. Attention inside the model is Steam news: how many posts fell in the week, and how many days since the previous post.
+- SullyGnome may be opened in a browser for one case study. Copy the numbers by hand with the page URL and the date. Do not scrape it.
 - Do not invent a metric, a player count, or a model score. If a file does not contain the number, the report says the number is not in yet.
 
 SteamCharts history, already measured in `data/feasibility/steamcharts_resolution.txt`, has three layers on every game we checked: monthly through 1 August 2026, daily from 9 August through 6 October, and hourly from 6 October. About twelve weeks can train a weekly model. Monthly history is context, not a training row.
+
+## Twitch
+
+Leave Twitch out of the model. Helix can describe a stream that is live at the moment you ask, and it cannot return last August's hours watched. SullyGnome stores that history, and it has no public API. Building a developer application for a feature the training table cannot use would spend the night before Sunday on data that starts too late.
+
+Steam news replaces it. `ISteamNews/GetNewsForApp` returns patch and event posts with publication times, for the same weeks as the player history. The model sees `news_count` and `days_since_news`. If one case-study week looks like a streaming event, Sienna may open that game's SullyGnome page, write down the hours watched by hand, and Soha can quote that page as an illustration. Those figures never enter `week_panel.csv`.
 
 ## What to produce
 
@@ -85,6 +92,8 @@ Destiny's model reads one table, `data/processed/week_panel.csv`. One row is one
 | `holiday_count` | Count of listed holidays in the week |
 | `peer_median_growth` | Median `wow_growth` of the other games in the peer set |
 | `peer_set_size` | How many other games were in that median |
+| `news_count` | Steam news posts with a publication time inside the week |
+| `days_since_news` | Days from the Sunday cutoff back to the latest post on or before that Sunday |
 
 Sienna's calendar supplies the sale and holiday flags. Sienna's peer file supplies the sets. Destiny's script joins them. Zeros are kept in `n_zeros` and dropped from `peak` when a zero sits next to normal hours, because the same zero timestamps appeared on every game in the history check.
 
@@ -92,9 +101,9 @@ Sienna's calendar supplies the sale and holiday flags. Sienna's peer file suppli
 
 ### Destiny
 
-1. Keep the Mac awake. The recorder runs at 5 minutes past every hour. Check it with `python3 collect/collect_once.py --status`.
-2. Add Twitch keys to `.env` if they are not there, then run `python3 collect/collect_once.py` once. The status line should include `twitch ok`.
-3. Download `chart-data.json` for the 19 games in `collect/games.csv` that are not already under `data/feasibility/steamcharts/`. One request per second. Save them as `{appid}.json` in that same folder.
+1. Keep the Mac awake. The recorder runs at 5 minutes past every hour. Check it with `python3 collect/collect_once.py --status`. Steam counts are enough. Do not spend tonight on a Twitch developer application.
+2. Download `chart-data.json` for the 19 games in `collect/games.csv` that are not already under `data/feasibility/steamcharts/`. One request per second. Save them as `{appid}.json` in that same folder.
+3. Pull Steam news for the same 24 games from `ISteamNews/GetNewsForApp` and save the raw JSON under `data/news/`. Count posts by week from the publication timestamps.
 4. Create `model/train.py` so it can read `data/processed/week_panel.csv` and fit, in this order: unchanged peak, weekday pattern, ridge, shallow XGBoost. Chronos waits until Saturday. The script must refuse to train on weeks starting 19 October or later.
 
 ### Sienna
@@ -149,7 +158,7 @@ Soha finishes `report/draft.md` and the slides, except one line reserved for the
 
 Sienna keeps `analysis/decisions.md` as the source Soha quotes. Destiny does not retune the model after Sunday.
 
-The limits section says these things in plain sentences: about twelve usable weeks, 24 games, daily samples are not the true hourly peak, Twitch covers only the live week if the keys were added, SullyGnome was read by hand for at most one example, and the study does not show that a patch or a stream caused the surge.
+The limits section says these things in plain sentences: about twelve usable weeks, 24 games, daily samples are not the true hourly peak, Twitch was left out because it has no history the model can train on, Steam news is the attention signal instead, SullyGnome was read by hand for at most one example, and the study does not show that a patch or a stream caused the surge.
 
 ## Monday 16 November
 
@@ -170,7 +179,7 @@ You are helping Destiny on Group 18's Steam spike forecast. Destiny builds the m
 
 Read README.md and collect/games.csv. The locked split is in the README: train through the week ending 4 October 2026, validate 5–18 October, historical test 19 October–1 November, live forecast for 9–15 November sealed on 8 November.
 
-Build data/processed/week_panel.csv from data/feasibility/steamcharts/*.json, analysis/calendar.csv, and analysis/peers.csv, using the columns listed in the README. Drop isolated zero player counts from the peak, and keep them in n_zeros. A feature for week t may use only timestamps inside week t or earlier.
+Build data/processed/week_panel.csv from data/feasibility/steamcharts/*.json, data/news/*.json, analysis/calendar.csv, and analysis/peers.csv, using the columns listed in the README. Include news_count and days_since_news. Do not add Twitch columns. Drop isolated zero player counts from the peak, and keep them in n_zeros. A feature for week t may use only timestamps inside week t or earlier.
 
 Then add model/train.py. Fit, in order, unchanged-peak, weekday-pattern, ridge, and shallow XGBoost. Read validation error from model/results/validation.csv before fitting the next model. Refuse to fit on weeks starting 19 October 2026 or later. After those four scores exist, try Chronos-2 small zero-shot with context cut at Sunday, and if the install fails write model/results/chronos_note.txt.
 
@@ -200,7 +209,7 @@ You are helping Soha on Group 18's Steam spike forecast. Soha writes the report 
 
 Create report/draft.md in this order: question, why the unchanged-peak comparison is the baseline, data access, the three SteamCharts layers, the live recorder, the locked target and week split, what the analysis notes say, the model ladder, historical test results, a heading "Live week" containing only "Filled on 16 November from analysis/live_week.md", and limits.
 
-The limits must say: about twelve usable weeks, 24 games, daily samples are not true hourly peaks, Twitch covers only the live week, SullyGnome is not a downloaded dataset, and the project does not show that a patch or a stream caused a surge.
+The limits must say: about twelve usable weeks, 24 games, daily samples are not true hourly peaks, Twitch is not in the model because the API has no history, Steam news is the attention signal, SullyGnome is not a downloaded dataset, and the project does not show that a patch or a stream caused a surge.
 
 Create report/slides_outline.md for a ten-minute talk: question, three data layers, model order, results with blanks until test.csv exists, one hit and one miss from analysis/case_studies.md, a blank live-week slide, limits.
 
@@ -216,6 +225,6 @@ python3 collect/collect_once.py
 python3 collect/collect_once.py --status
 ```
 
-Steam player counts are collected on every run. Twitch viewer totals are collected only when `TWITCH_CLIENT_ID` and `TWITCH_CLIENT_SECRET` are set. The Mac schedule is `collect/group18.steamcollector.plist`, at 5 minutes past every hour. The computer has to be awake. Missing hours stay missing.
+Steam player counts are collected on every run. Twitch collection stays switched off. The Mac schedule is `collect/group18.steamcollector.plist`, at 5 minutes past every hour. The computer has to be awake. Missing hours stay missing.
 
 `collect/feasibility_steamcharts.py` rewrites `data/feasibility/steamcharts_resolution.txt` from the saved JSON. Use `--refresh` only when you intend to download again.
