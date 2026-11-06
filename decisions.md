@@ -4,6 +4,26 @@ One entry per work session. Newest at the top. The next session (human or AI)
 reads this file first, then README.md. The report's method section is a
 cleaned version of this log, not a reconstructed story.
 
+## 2026-11-06 (late) — Destiny (with AI pair)
+
+**Cloud redundancy for the recorder (commit 81e2b1e).** The MacBook cannot
+stay awake for the full scored week (commutes, lid closures), so a GitHub
+Actions workflow now runs `collect/collect_once.py` hourly at :05 UTC.
+Design decision: the cloud collector writes `data/live/cloud/`, NOT the
+Mac's files, so bot pushes and local pushes can never collide on the same
+CSV. `collect_once.py` gained an `--out-dir` flag; the Mac launchd job is
+unchanged. First manual dispatch succeeded at 13:20 UTC (24/24, 7.9s,
+commit 89d2c4d). Cron caveats: Actions schedules can lag minutes to an
+hour under load. Scoring on 16 Nov will merge both series, dedupe by
+(appid, hour) preferring the Mac copy, and use the SteamCharts hourly
+re-download as a third leg. The two sources also cross-check each other:
+same hour, same public number, independent collectors.
+
+**For the report's data-access section:** the collection infrastructure
+itself became part of the reliability story — a laptop recorder with known
+gaps, a cloud replica, and a third-party archive (SteamCharts) as backup,
+with honesty about which hours are missing recorded in n_samples.
+
 ## 2026-11-06 — Destiny (with AI pair)
 
 **Trigger:** Soha's `analysis/peers.csv` arrived (commit 1db74c5). Validated

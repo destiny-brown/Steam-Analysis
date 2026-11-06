@@ -262,6 +262,8 @@ python3 collect/collect_once.py --status
 
 Steam player counts are collected on every run. Twitch collection stays switched off. The Mac schedule is `collect/group18.steamcollector.plist`, at 5 minutes past every hour. The computer has to be awake. Missing hours stay missing.
 
+A cloud replica runs the same script in GitHub Actions (`.github/workflows/collect.yml`), hourly at :05 UTC, writing `data/live/cloud/` — a separate directory so bot pushes never collide with the Mac's files. The cloud series covers hours when the laptop is asleep. On 16 November the scoring step merges both series, deduplicating by (appid, hour) with the Mac copy preferred, and re-downloads SteamCharts hourly as a third leg.
+
 `collect/feasibility_steamcharts.py` rewrites `data/feasibility/steamcharts_resolution.txt` from the saved JSON. Use `--refresh` only when you intend to download again.
 
 ## Checklists
