@@ -1,0 +1,2 @@
+collected_at_utc,steam_ok,steam_fail,twitch_ok,twitch_fail,twitch_status,seconds
+2026-11-06T13:20:09Z,24,0,0,0,skipped_no_credentials,7.9
