@@ -26,6 +26,13 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 GAMES = ROOT / "collect" / "games.csv"
 LIVE = ROOT / "data" / "live"
+if "--out-dir" in sys.argv:
+    # Cloud collector (GitHub Actions) writes to its own directory so its
+    # pushes never collide with the Mac collector's files. See decisions.md
+    # entry of 2026-11-06.
+    _i = sys.argv.index("--out-dir")
+    LIVE = Path(sys.argv[_i + 1]).resolve()
+    del sys.argv[_i : _i + 2]
 LOCK = LIVE / ".collect.lock"
 STEAM_CSV = LIVE / "steam_players.csv"
 TWITCH_CSV = LIVE / "twitch_streams.csv"

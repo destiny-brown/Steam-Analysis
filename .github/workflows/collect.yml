@@ -1,0 +1,44 @@
+name: cloud-collect
+
+# Redundant hourly Steam collector. The Mac launchd job writes data/live/;
+# this workflow writes data/live/cloud/ so pushes never collide. The scored
+# week (9-15 Nov 2026) is covered even if the laptop is asleep. See
+# decisions.md, 2026-11-06.
+
+on:
+  schedule:
+    - cron: "5 * * * *" # UTC, matches collected_at_utc
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: cloud-collect
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Collect one snapshot
+        run: python3 collect/collect_once.py --out-dir data/live/cloud
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/live/cloud
+          if git diff --cached --quiet; then
+            echo "no new rows"
+          else
+            git commit -m "cloud collect: hourly snapshot"
+            git push
+          fi
