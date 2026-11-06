@@ -4,6 +4,45 @@ One entry per work session. Newest at the top. The next session (human or AI)
 reads this file first, then README.md. The report's method section is a
 cleaned version of this log, not a reconstructed story.
 
+## 2026-11-06 — Destiny (with AI pair)
+
+**Trigger:** Soha's `analysis/peers.csv` arrived (commit 1db74c5). Validated
+before the run: 24/24 appids, five groups (shooter 6, coop_live_service 5,
+survival_sandbox 5, rpg 4, pvp_other 4), all >= the README minimum of 3.
+One rebuild, one retrain.
+
+**Validation MAE, with peers (previous run in brackets):**
+
+| Model | Val MAE |
+| --- | --- |
+| unchanged peak | 0.0895 (0.0895) |
+| weekday pattern | 0.2255 (0.2255) |
+| ridge | 0.0980 (0.0955) |
+| XGBoost | 0.1091 (0.1099) |
+
+Ablation (XGBoost, validation): full 0.1091 / no_calendar 0.1080 /
+no_peer 0.1099 / no_major_update 0.1144.
+
+**Sanity checks on the peer column:** populated 240/240 usable rows;
+peer_set_size 3-5 as designed. Sign agreement between a game's log-growth
+and its peer median: 119/240 = 49.6% — a coin flip, consistent with the
+lag-1 autocorrelation of 0.046. Weekly growth is near-noise, so peer
+momentum cannot align either. Soha's report section should state this
+directly.
+
+**Reading:** peers changed little (XGBoost +0.0008 better, ridge -0.0025
+worse — both inside validation noise on 48 rows). `major_update` remains
+the clearest feature contribution (removing it: 0.1091 -> 0.1144).
+Calendar flipped sign again between runs (helped yesterday, hurts today),
+which confirms these small ablation differences are within noise; the
+test-week run is what adjudicates. The ladder is now FINAL for Saturday:
+all designed inputs exist. No further feature changes before the freeze.
+
+**Tomorrow (Saturday 7 Nov), in order:** full ladder -> score the two
+historical test weeks ONCE into model/results/test.csv with ratios ->
+ablation on test -> Chronos-2 small zero-shot (verbatim error to
+chronos_note.txt if install fails). Then freeze.
+
 ## 2026-11-05 (evening) — Destiny (with AI pair)
 
 **Decisions (recorded before the run):**
