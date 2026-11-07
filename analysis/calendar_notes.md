@@ -51,11 +51,35 @@ The panel builder applies `announced_on <= Sunday cutoff` before setting
 Holiday rows are counted by week; the 26 September, 1 October, and 19
 October dates therefore contribute one holiday each.
 
-## Results still to be copied from Destiny's outputs
+## Training comparison
 
-Do not invent scores here. After the model run, copy the training-week
-histogram, surge rule/base rate, and the sale-week versus ordinary-week and
-holiday-week versus ordinary-week summaries from Destiny's saved outputs.
-The three SteamCharts spot checks required by the README should record the
-SteamCharts page URL, checked date, and observed series resolution for appids
-730, 1623730, and one smaller game.
+The training interval is the eight feature weeks starting 10 August through
+28 September (192 game-weeks). Using `log_growth` from
+`data/processed/week_panel.csv`, the seven weeks with `sale_this_week = 1`
+have mean log-growth −0.0109 and mean absolute log-growth 0.1170. The one
+training week with `sale_this_week = 0` has mean log-growth −0.0453 and mean
+absolute log-growth 0.0941. This is a descriptive comparison, not a causal
+sale effect; the no-sale reference is only one week.
+
+The two holiday weeks have mean log-growth −0.0108 and mean absolute
+log-growth 0.1022. The six weeks without a listed holiday have mean
+log-growth −0.0167 and mean absolute log-growth 0.1181. Holiday weeks are
+therefore close to ordinary weeks in this short sample.
+
+The saved `model/results/log_growth_histogram.png` is the training log-growth
+histogram. The panel contains 192 training log-growth rows; the surge count
+and base rate are not repeated here without a saved tabular output.
+
+## SteamCharts spot checks
+
+The SteamCharts pages were checked on 7 November 2026:
+
+| App | Page | Observed resolution |
+| --- | --- | --- |
+| Counter-Strike 2 (730) | https://steamcharts.com/app/730 | daily for 9 Aug–6 Oct; hourly from 6 Oct |
+| Palworld (1623730) | https://steamcharts.com/app/1623730 | daily for 9 Aug–6 Oct; hourly from 6 Oct |
+| Valheim (892970) | https://steamcharts.com/app/892970 | daily for 9 Aug–6 Oct; hourly from 6 Oct |
+
+These spot checks agree with the saved feasibility report: monthly history
+ends 1 August, daily history runs 9 August–6 October, and hourly history
+starts 6 October.

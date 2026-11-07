@@ -29,9 +29,15 @@ Saturday and Sunday as holidays.
 
 ## Histogram and calendar comparison
 
-*Pending Destiny's training-week histogram, surge rule/base rate, and the
-sale/holiday comparison from the saved model outputs. No score is reported
-until those files exist.*
+The saved `model/results/log_growth_histogram.png` is the training histogram;
+the panel has 192 training log-growth rows. The surge count and base rate are
+not stated because no saved tabular output contains them.
+
+For the eight training weeks from 10 August through 28 September, the seven
+sale weeks (`sale_this_week = 1`) had mean log-growth −0.0109, compared with
+−0.0453 for the one no-sale week. The two holiday weeks had mean log-growth
+−0.0108, compared with −0.0167 for the six weeks without a listed holiday.
+These are descriptive associations from a short sample, not causal effects.
 
 ## Historical calendar case
 
@@ -42,5 +48,6 @@ Sunday will be used.*
 
 The training history is short, the momentum columns are correlated, and a
 calendar flag is an association rather than a causal effect. Twitch has no
-usable public historical export for this model. The live-week result will be
-added after the sealed forecast is scored on 16 November.
+usable public historical export for this model. The live-week result remains
+blank until 16 November and will then be copied only from
+`model/results/live_week.csv`.

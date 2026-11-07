@@ -12,7 +12,8 @@
 
 ## 3. Histogram and surge rule
 
-*Pending the training histogram and surge base rate.*
+The saved training histogram contains 192 training log-growth rows. The surge
+count and base rate are not yet in a saved tabular output.
 
 ## 4. Calendar comparison
 
@@ -20,8 +21,12 @@ The calendar uses announced Steam events and Hong Kong public holidays. The
 official 2026 Steam schedule was public on 16 January; the holiday dates in
 the feature interval are 26 September, 1 October, and 19 October.
 
-*Pending the sale/holiday comparison and calendar case from `test.csv`.*
+Across the eight training weeks, seven sale weeks averaged −0.0109
+log-growth versus −0.0453 for the one no-sale week. Two holiday weeks
+averaged −0.0108 versus −0.0167 for six non-holiday weeks. These are
+descriptive associations, not causal effects. The test case remains blank
+until `test.csv` exists.
 
 ## 5. Live week
 
-*Leave blank until 16 November and the scored live-week file.*
+Leave blank until 16 November; then copy only from `live_week.csv`.
