@@ -19,7 +19,10 @@ holiday dates, and Lunar New Year is outside this window.
 
 ## Player chart
 
-*Pending Destiny's chosen player chart and the Sunday cutoff marker.*
+Open with the week starting 28 September 2026: the Steam Autumn Sale begins
+on 1 October and Hong Kong National Day falls in the same week. Mark the
+Sunday 4 October cutoff on the player chart; no player count is added here
+until the chart is selected from the saved data.
 
 ## Data access and quality
 
@@ -46,7 +49,12 @@ Saturday and Sunday as holidays.
 
 ## Histogram and calendar comparison
 
-*Results intentionally blank until the saved model outputs are approved.*
+The saved training histogram contains 192 `log_growth` rows. The surge rule
+identifies 5 rows, giving a base rate of 2.6%. Across the eight training
+weeks, seven sale weeks averaged −0.0109 log-growth versus −0.0453 for the
+one no-sale week; two holiday weeks averaged −0.0108 versus −0.0167 for the
+six weeks without a listed holiday. These are descriptive associations, not
+causal effects.
 
 ## Historical calendar case
 

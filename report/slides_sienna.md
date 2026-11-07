@@ -2,7 +2,9 @@
 
 ## 1. Player chart
 
-*Pending Destiny's chart and Sunday cutoff marker.*
+Open with the week starting 28 September 2026: the Steam Autumn Sale begins
+on 1 October and Hong Kong National Day falls in the same week; mark the
+Sunday 4 October cutoff.
 
 ## 2. Data quality
 
@@ -13,7 +15,7 @@
 ## 3. Histogram and surge rule
 
 The saved training histogram contains 192 training log-growth rows. The surge
-count and base rate are not yet in a saved tabular output.
+rule identifies 5 rows, giving a base rate of 2.6%.
 
 ## 4. Calendar comparison
 

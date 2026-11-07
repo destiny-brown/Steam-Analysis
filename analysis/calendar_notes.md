@@ -73,14 +73,22 @@ histogram. The surge count is 5 out of 192 training rows, for a base rate of
 
 ## SteamCharts spot checks
 
-The SteamCharts pages were checked on 7 November 2026:
+The SteamCharts pages were checked on 7 November 2026 for three calendar
+dates. The page checks confirm that each date falls in the published series;
+the hourly layer begins on 6 October.
 
-| App | Page | Observed resolution |
-| --- | --- | --- |
-| Counter-Strike 2 (730) | https://steamcharts.com/app/730 | daily for 9 Aug–6 Oct; hourly from 6 Oct |
-| Palworld (1623730) | https://steamcharts.com/app/1623730 | daily for 9 Aug–6 Oct; hourly from 6 Oct |
-| Valheim (892970) | https://steamcharts.com/app/892970 | daily for 9 Aug–6 Oct; hourly from 6 Oct |
+| Calendar date | Item | App | Page | Observed resolution |
+| --- | --- | --- | --- | --- |
+| 2026-09-26 | Day following Chinese Mid-Autumn Festival | Counter-Strike 2 (730) | https://steamcharts.com/app/730 | daily |
+| 2026-10-01 | Steam Autumn Sale and National Day | Palworld (1623730) | https://steamcharts.com/app/1623730 | daily |
+| 2026-10-19 | Cooking Fest, Next Fest, and holiday | Valheim (892970) | https://steamcharts.com/app/892970 | hourly |
 
-These spot checks agree with the saved feasibility report: monthly history
-ends 1 August, daily history runs 9 August–6 October, and hourly history
-starts 6 October.
+These checks agree with the saved feasibility report: monthly history ends 1
+August, daily history runs 9 August–6 October, and hourly history starts 6
+October.
+
+## Opening week
+
+Open the talk with the week starting 28 September 2026: the Steam Autumn Sale
+begins on 1 October and Hong Kong National Day falls in the same week. It is
+a recognizable calendar case and still belongs to the daily training layer.
