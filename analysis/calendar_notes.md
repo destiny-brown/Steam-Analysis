@@ -24,10 +24,11 @@ separate holiday row.
 
 The feasibility check reports the same three layers for every checked game:
 monthly points through 1 August, daily points from 9 August through 6
-October, and hourly points from 6 October onward. Therefore the project weeks
-starting 10 August through 28 September are daily, and weeks starting 5
-October through 2 November are hourly. The 2 November row is the live feature
-week and is incomplete at the Sunday cutoff.
+October, and hourly points from 6 October onward. Therefore every training week, starting 10 August through 28 September, is
+daily. No hourly week is in the training set: the weeks starting 5 October
+and 12 October are validation weeks, and the weeks starting 19 October and
+26 October are historical test weeks; all four are hourly. The 2 November
+row is the live feature week and is incomplete at the Sunday cutoff.
 
 ## Weeks and calendar flags
 

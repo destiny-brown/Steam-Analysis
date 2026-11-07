@@ -1,5 +1,22 @@
 # Data and calendar
 
+## SteamCharts layers
+
+SteamCharts supplies three layers for the checked games: monthly observations
+through 1 August 2026, daily observations from 9 August through 6 October,
+and hourly observations from 6 October through the download date. Monthly
+history is context only; the training weeks from 10 August through 28
+September are daily, while later validation and test weeks are hourly.
+
+## Calendar rules
+
+The calendar covers 10 August through 15 November 2026. A Steam sale or event
+is included only when its announcement date was public by the relevant Sunday
+cutoff; the official 2026 schedule was announced on 16 January. Hong Kong
+holidays in this interval are 26 September, 1 October, and 19 October.
+Weekends are handled by the fixed `weekend_days = 2` feature, not listed as
+holiday dates, and Lunar New Year is outside this window.
+
 ## Player chart
 
 *Pending Destiny's chosen player chart and the Sunday cutoff marker.*
@@ -29,15 +46,7 @@ Saturday and Sunday as holidays.
 
 ## Histogram and calendar comparison
 
-The saved `model/results/log_growth_histogram.png` is the training histogram;
-the panel has 192 training log-growth rows. The surge count and base rate are
-not stated because no saved tabular output contains them.
-
-For the eight training weeks from 10 August through 28 September, the seven
-sale weeks (`sale_this_week = 1`) had mean log-growth −0.0109, compared with
-−0.0453 for the one no-sale week. The two holiday weeks had mean log-growth
-−0.0108, compared with −0.0167 for the six weeks without a listed holiday.
-These are descriptive associations from a short sample, not causal effects.
+*Results intentionally blank until the saved model outputs are approved.*
 
 ## Historical calendar case
 
