@@ -62,6 +62,55 @@ In words: peer momentum is the median week-to-week log growth of the
 
 ## Training-week comparison
 
-*Not in yet. Added after `data/processed/week_panel.csv` is checked on
-training weeks: how often a game's `log_growth` has the same sign as
-`peer_median_growth`, plus five unchanged-peak errors worked by hand.*
+Source: `data/processed/week_panel.csv` as rebuilt by Destiny on 6 November
+with this `peers.csv` (commit a1cdfe2). Training weeks are the feature weeks
+starting 10 August through 28 September (192 game-weeks). The week starting
+10 August has no previous week, so its `wow_growth` and
+`peer_median_growth` are set to 0; it is left out below, which leaves
+**168 game-weeks** (7 weeks x 24 games). No row had a growth of exactly 0
+after that.
+
+### Do games move with their peers?
+
+| Comparison | Same direction | Share |
+|---|---|---|
+| Same week: game `wow_growth` vs `peer_median_growth` | 110 of 168 | 65.5% |
+| Next week: game `log_growth` vs `peer_median_growth` | 92 of 168 | 54.8% |
+| Reference: game `log_growth` vs its own `wow_growth` | 90 of 168 | 53.6% |
+| Reference: always guess "down" | 105 of 168 | 62.5% |
+
+By group, next-week agreement was: rpg 24/28, survival_sandbox 21/35,
+coop_live_service 19/35, pvp_other 16/28, shooter 12/42.
+
+Correlation between `peer_median_growth` and the game's growth was 0.059 in
+the same week and −0.054 for the next week.
+
+**Reading.** In the same week, a game moves in its peers' direction about two
+times in three, so the groups do describe shared movement. As a forecast of
+next week the peer median is barely better than a coin flip and does worse
+than simply guessing "down": 62.5% of training game-weeks fell, and the peer
+median was negative in 79% of rows, so most of its agreement is the general
+downward drift of August–September. Agreement is strong only in the RPG group
+and below chance for shooters. This is a descriptive count on eight daily
+weeks, not evidence that a peer game causes a change.
+
+### Five unchanged-peak errors worked by hand
+
+The unchanged-peak forecast predicts `log_growth = 0`, so its error for one
+game-week is |ln(next_peak / peak)|. Week starting 21 September 2026 (a
+training week), one game from each peer group. `peak` and `next_peak` are
+copied from `week_panel.csv`; the steps were then recomputed on a
+calculator.
+
+| Game | peak (21–27 Sep) | next_peak (28 Sep–4 Oct) | next_peak / peak | ln(ratio) | Error |
+|---|---|---|---|---|---|
+| Counter-Strike 2 | 1,450,705 | 1,314,127 | 0.90585 | −0.0989 | 0.0989 |
+| Destiny 2 | 37,341 | 40,811 | 1.09293 | +0.0889 | 0.0889 |
+| Palworld | 82,413 | 78,690 | 0.95483 | −0.0462 | 0.0462 |
+| Baldur's Gate 3 | 72,504 | 71,090 | 0.98050 | −0.0197 | 0.0197 |
+| Dota 2 | 897,660 | 889,598 | 0.99102 | −0.0090 | 0.0090 |
+
+Mean of the five errors: (0.0989 + 0.0889 + 0.0462 + 0.0197 + 0.0090) / 5 =
+**0.0525**. Each ln(ratio) matches the `log_growth` value in the panel to
+four decimals. An error of 0.0989 means Counter-Strike 2's peak was about 9%
+lower than the unchanged forecast; Dota 2 was within 1%.

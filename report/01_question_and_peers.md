@@ -62,8 +62,14 @@ Grouping choices are explained in `analysis/peer_notes.md`.
 
 ## Peer result
 
-*Not in yet: how often a game and its peer median move in the same
-direction on training weeks.*
+On the training weeks (168 game-weeks after the first week, which has no
+previous week), a game moved in the same direction as its peer median in the
+same week 110 times out of 168 (65.5%). So the groups capture shared
+movement. As a signal for *next* week, the peer median matched the game's
+direction 92 times out of 168 (54.8%), less than simply guessing "down"
+(62.5%), because most training weeks drifted downward. Agreement was strong
+for RPGs (24 of 28) and below chance for shooters (12 of 42). Details and five
+hand-worked unchanged-peak errors are in `analysis/peer_notes.md`.
 
 ## Model comparison
 
@@ -75,7 +81,12 @@ from `model/results/ablation.csv`.*
 
 ## Case
 
-*Not in yet: from `analysis/case_peers.md`.*
+HELLDIVERS 2, week of 19–25 October (historical test). On Sunday its own
+peak was up about 65% on the week before (`wow_growth` +0.50), while its
+co-op/live-service peers were slightly down (`peer_median_growth` −0.04). The
+next week its peak fell about 39% (`log_growth` −0.49). The peers had the
+direction right but not the size. Model errors for this row: *not in yet,
+from `model/results/test.csv`.*
 
 ## Live week
 
