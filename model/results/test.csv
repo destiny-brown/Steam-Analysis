@@ -1,0 +1,5 @@
+model,test_mae,ratio_to_baseline
+unchanged_peak,0.144049,1.0
+weekday_pattern,0.329979,2.2907
+ridge,0.126251,0.8764
+xgboost,0.131923,0.9158

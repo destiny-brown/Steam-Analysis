@@ -4,6 +4,45 @@ One entry per work session. Newest at the top. The next session (human or AI)
 reads this file first, then README.md. The report's method section is a
 cleaned version of this log, not a reconstructed story.
 
+## 2026-11-07 (Saturday, freeze day) — Destiny (with AI pair)
+
+**The historical test weeks were scored once, today, 20:55 HKT.** Models are
+the frozen train-fit ones from 6 Nov; no refit on train+val, no second pass.
+
+**Test MAE of log-growth (48 rows, weeks of 19 Oct and 26 Oct):**
+
+| Model | Test MAE | Ratio to baseline |
+| --- | --- | --- |
+| unchanged peak | 0.1440 | 1.000 |
+| weekday pattern | 0.3300 | 2.291 |
+| ridge | 0.1263 | 0.876 |
+| XGBoost | 0.1319 | 0.916 |
+
+Test ablation (XGBoost): full 0.1319 / no_calendar 0.1413 / no_peer 0.1424 /
+no_major_update 0.1334. Every feature family contributes on test: removing
+any of them makes the score worse.
+
+**Headline: ridge and XGBoost both beat the unchanged-peak baseline on the
+held-out test weeks (ratios 0.876 and 0.916).** The test weeks were harder
+than validation (baseline 0.1440 vs 0.0895 — Next Fest and Scream weeks are
+volatile), and the models' edge grew exactly there.
+
+**For the report:**
+- XGBoost train MAE 0.0442 vs test 0.1319 is the overfitting signature;
+  ridge (train 0.1117, test 0.1263) generalizes far better. This is the
+  L5 bias-variance exhibit, with numbers.
+- The validation ablation flipped signs between runs (noise on 48 rows);
+  the test ablation is unanimous. That contrast is itself a finding:
+  small validation samples cannot adjudicate feature families.
+- Weekday pattern is discredited on both splits; it stays in the ladder as
+  the negative control.
+
+**Decisions made today:** test ablation replaces the validation ablation in
+model/results/ablation.csv (validation numbers preserved in the 5-6 Nov
+entries above). validation.csv now carries train_mae as the README requires.
+Remaining today: Chronos-2 attempt, then freeze. Tomorrow: seal the live
+forecast by 23:00 HKT.
+
 ## 2026-11-06 (late) — Destiny (with AI pair)
 
 **Cloud redundancy for the recorder (commit 81e2b1e).** The MacBook cannot

@@ -1,5 +1,5 @@
-model,val_mae
-full,0.10912388828683117
-no_calendar,0.1080019925428008
-no_peer,0.10994765465246831
-no_major_update,0.11444331371772541
+model,test_mae,ratio_to_baseline
+full,0.131923,0.9158
+no_calendar,0.141319,0.9811
+no_peer,0.142375,0.9884
+no_major_update,0.133436,0.9263
