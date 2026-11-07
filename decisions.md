@@ -43,6 +43,33 @@ entries above). validation.csv now carries train_mae as the README requires.
 Remaining today: Chronos-2 attempt, then freeze. Tomorrow: seal the live
 forecast by 23:00 HKT.
 
+**Chronos-2 small, zero-shot — ran successfully (21:00 HKT).** Test MAE
+0.1401, ratio 0.973: it beats the baseline with zero training on our data,
+but loses to ridge (0.876) and XGBoost (0.916). Full per-row detail in
+model/results/chronos_note.txt. Final ladder on the historical test weeks:
+
+| Model | Test MAE | Ratio |
+| --- | --- | --- |
+| unchanged peak | 0.1440 | 1.000 |
+| weekday pattern | 0.3300 | 2.291 |
+| ridge | 0.1263 | 0.876 |
+| XGBoost | 0.1319 | 0.916 |
+| Chronos-2 small (zero-shot) | 0.1401 | 0.973 |
+
+For the talk: the foundation model with no training on our data nearly
+matches a tuned baseline, but a ridge on engineered features wins — the
+expected result when the target series is short and the features are
+event-informed. (Process note: the first attempt failed with
+`ImportError: cannot import name 'Chronos2Pipeline' from 'chronos'
+(model/chronos.py)` — the script's own filename shadowed the package.
+Renamed to model/run_chronos.py. The failed verbatim error was
+overwritten by the successful note.)
+
+**Forecast model for tomorrow's sealed file: ridge** — the best test
+ratio (0.876). The model is frozen; only the live-week features change.
+
+**FREEZE.** No further model changes before the 16 Nov scoring.
+
 ## 2026-11-06 (late) — Destiny (with AI pair)
 
 **Cloud redundancy for the recorder (commit 81e2b1e).** The MacBook cannot
