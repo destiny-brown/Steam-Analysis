@@ -1,13 +1,16 @@
-# Question and peer momentum
+# The Sunday Forecast: Predicting Next Week's Peak Steam Players with Baselines, Boosted Trees, and a Foundation Model
+
+*Section 1: question and peer momentum*
 
 ## The question
 
-On Sunday night, using only information that is already public, can we
-forecast next week's peak Steam player count better than by assuming the
-peak will not change?
+For 24 games followed weekly from August to November 2026, can momentum,
+calendar, peer, and news features predict next week's peak player growth
+better than assuming the peak will not change — and does that edge survive a
+sealed forecast scored against data that did not exist when the prediction
+was made?
 
-We study 24 popular Steam games. For each game and each week, the model
-predicts
+For each game and each week, the models predict
 
 ```
 log_growth = log(next week's peak) - log(this week's peak)
