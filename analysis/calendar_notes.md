@@ -67,8 +67,8 @@ log-growth −0.0167 and mean absolute log-growth 0.1181. Holiday weeks are
 therefore close to ordinary weeks in this short sample.
 
 The saved `model/results/log_growth_histogram.png` is the training log-growth
-histogram. The panel contains 192 training log-growth rows; the surge count
-and base rate are not repeated here without a saved tabular output.
+histogram. The surge count is 5 out of 192 training rows, for a base rate of
+2.6%.
 
 ## SteamCharts spot checks
 
