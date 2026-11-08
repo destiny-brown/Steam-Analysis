@@ -31,9 +31,10 @@ advance, scored as the model stands.
 
 **Infrastructure:** SteamCharts re-downloaded tonight (`--refresh`, 24/24
 saved) so the live feature row includes the full weekend; panel rebuilt
-(312 rows). Mac recorder healthy (last run 23:09 HKT). Cloud recorder leg
-last wrote 2026-11-07T12:17Z — stale ~36h at seal time; investigate at the
-16 Nov merge, Mac leg is the scoring leg.
+(312 rows). Both recorder legs healthy at seal time: Mac last run 23:09 HKT
+(23/24 games), cloud last run 23:11 HKT (24/24). (An earlier draft of this
+entry called the cloud leg stale; that was a race between `git pull` and
+reading the file — the post-pull data showed it never stopped.)
 
 `model/forecast.py` imports FEATURES/load_panel/ridge_fit/ridge_predict from
 `train.py` verbatim so feature logic cannot drift; it refuses to run at or
