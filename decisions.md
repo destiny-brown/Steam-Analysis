@@ -4,6 +4,42 @@ One entry per work session. Newest at the top. The next session (human or AI)
 reads this file first, then README.md. The report's method section is a
 cleaned version of this log, not a reconstructed story.
 
+## 2026-11-08 (Sunday, seal night) — Destiny (with AI pair)
+
+**The live forecast is sealed.** `data/live/forecast_2026-11-09.csv` was
+emitted at 2026-11-08T15:59:30Z (23:59 HKT Sunday), committed and pushed the
+same night — before Monday 00:00 UTC and before any of the 9-15 Nov week
+existed. The file is never edited again; scoring happens Mon 16 Nov against
+the recorder data.
+
+**Fit decision (the open question from Saturday):** ridge (alpha=1.0, the
+frozen configuration) was refit on all 288 labeled rows — train + validation
++ historical test, weeks of 10 Aug - 1 Nov. Rationale: standard
+post-evaluation practice; the test weeks precede the forecast week
+chronologically, so no leakage. The alternative (train-only 192-row fit, the
+exact object that scored 0.876) was rejected because withholding 96 labeled
+weeks from the final fit wastes information for a one-shot forecast. The
+checkpoint PDF submitted tonight states this choice publicly.
+
+**Forecast content:** all 24 games predicted negative log-growth, range
+-0.032 (Lost Ark) to -0.179 (Valheim). Consistent with the post-Halloween
+cooldown signal (22/24 negative wow_growth in the live feature week). Apex
+Legends (+0.236 wow with major update) is still predicted down (-0.125);
+Path of Exile's 13 Nov expansion is invisible to the features (news features
+describe the live week, not the forecast week) — the known wildcard, noted in
+advance, scored as the model stands.
+
+**Infrastructure:** SteamCharts re-downloaded tonight (`--refresh`, 24/24
+saved) so the live feature row includes the full weekend; panel rebuilt
+(312 rows). Mac recorder healthy (last run 23:09 HKT). Cloud recorder leg
+last wrote 2026-11-07T12:17Z — stale ~36h at seal time; investigate at the
+16 Nov merge, Mac leg is the scoring leg.
+
+`model/forecast.py` imports FEATURES/load_panel/ridge_fit/ridge_predict from
+`train.py` verbatim so feature logic cannot drift; it refuses to run at or
+after Monday 00:00 UTC and validates 288 labeled / 24 live rows and the
+games.csv game set before writing.
+
 ## 2026-11-07 (Saturday, freeze day) — Destiny (with AI pair)
 
 **The historical test weeks were scored once, today, 20:55 HKT.** Models are
