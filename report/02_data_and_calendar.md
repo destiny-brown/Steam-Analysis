@@ -34,8 +34,8 @@ retained in `n_zeros` but excluded from the peak and mean when surrounded by
 ordinary observations.
 
 The live Steam endpoint was not used for historical training. Twitch was
-refused as a model input because its API describes streams live at request
-time and does not provide the historical hours-watched series needed here.
+omitted because its API has no historical hours-watched series: it describes
+streams live at request time.
 Steam news is used instead through the project's saved Steam news JSON.
 
 ## Calendar rules
@@ -58,8 +58,20 @@ causal effects.
 
 ## Historical calendar case
 
-*Pending a test-week case copied from `test.csv`; only features known by that
-Sunday will be used.*
+### Week of 19–25 October 2026
+
+By the Sunday cutoff on 25 October, Cooking Fest had ended on 19 October,
+Next Fest was running, and the Hong Kong holiday on 19 October was known;
+the schedule had been announced on 16 January. The saved
+`model/results/test.csv` pools both historical test weeks, so it does not
+provide a separate error for this one week: unchanged peak 0.144049 (ratio
+1.0), weekday pattern 0.329979 (2.2907), ridge 0.126251 (0.8764), and
+XGBoost 0.131923 (0.9158). These are pooled test errors, not a per-week
+score.
+
+## Live week
+
+*Blank until 16 November; then copy only from `model/results/live_week.csv`.*
 
 ## Limits
 
