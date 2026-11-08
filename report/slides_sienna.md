@@ -2,40 +2,37 @@
 
 ## 1. Player chart
 
-Open with the week starting 28 September 2026: the Steam Autumn Sale begins
-on 1 October and Hong Kong National Day falls in the same week; mark the
-Sunday 4 October cutoff.
+*[Placeholder: insert a recognizable player chart for the week of 28
+September 2026 and mark the Sunday 4 October cutoff.]*
 
 ## 2. Data quality
 
-- SteamCharts has monthly, daily, and hourly layers; monthly history is context.
-- Shared zero timestamps are treated as outages in peak/mean calculations.
-- Steam news replaces Twitch as the historical attention input.
+- SteamCharts has monthly observations through 1 August, daily observations
+  from 9 August through 6 October, and hourly observations from 6 October
+  onward.
+- Monthly history is context; the training weeks are daily.
+- Twitch was omitted because its API has no historical hours-watched series.
 
-## 3. Histogram and surge rule
+## 3. Training histogram and surge rule
 
-The saved training histogram contains 192 training log-growth rows. The surge
-rule identifies 5 rows, giving a base rate of 2.6%.
+*[Placeholder: insert the training-week `log_growth` histogram with the surge
+rule marked.]*
+
+The surge count is 5 of 192 training rows, for a base rate of 2.6%.
 
 ## 4. Calendar comparison
 
-The calendar uses announced Steam events and Hong Kong public holidays. The
-official 2026 Steam schedule was public on 16 January; the holiday dates in
-the feature interval are 26 September, 1 October, and 19 October.
+The seven sale weeks averaged −0.0109 log-growth versus −0.0453 for the one
+no-sale training week. The two holiday weeks averaged −0.0108 versus −0.0167
+for the six non-holiday weeks. These are descriptive associations, not causal
+effects.
 
-Across the eight training weeks, seven sale weeks averaged −0.0109
-log-growth versus −0.0453 for the one no-sale week. Two holiday weeks
-averaged −0.0108 versus −0.0167 for six non-holiday weeks. These are
-descriptive associations, not causal effects.
+## 5. Calendar case study
 
-## 5. Calendar case
-
-For the week of 19–25 October, Next Fest and the 19 October Hong Kong
-holiday were already known by the Sunday cutoff. `test.csv` pools both
-historical test weeks, so its errors are not a per-week score: unchanged
-peak 0.144049, weekday pattern 0.329979, ridge 0.126251, and XGBoost
-0.131923.
+In the week of 19–25 October, Next Fest and the 19 October Hong Kong holiday
+were known by the Sunday cutoff, with the schedule announced on 16 January
+2026. The pooled test errors were unchanged peak 0.144049, weekday pattern
+0.329979, ridge 0.126251, and XGBoost 0.131923; these are not per-week
+scores.
 
 ## 6. Live week
-
-Leave blank until 16 November; then copy only from `live_week.csv`.

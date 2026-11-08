@@ -1,82 +1,52 @@
 # Data and calendar
 
-## SteamCharts layers
+## 1. Player chart
 
-SteamCharts supplies three layers for the checked games: monthly observations
-through 1 August 2026, daily observations from 9 August through 6 October,
-and hourly observations from 6 October through the download date. Monthly
-history is context only; the training weeks from 10 August through 28
-September are daily, while later validation and test weeks are hourly.
+*[Placeholder: insert a recognizable player chart for the week of 28
+September 2026 and mark the Sunday 4 October cutoff.]*
 
-## Calendar rules
+## 2. Data quality
 
-The calendar covers 10 August through 15 November 2026. A Steam sale or event
-is included only when its announcement date was public by the relevant Sunday
-cutoff; the official 2026 schedule was announced on 16 January. Hong Kong
-holidays in this interval are 26 September, 1 October, and 19 October.
-Weekends are handled by the fixed `weekend_days = 2` feature, not listed as
-holiday dates, and Lunar New Year is outside this window.
+SteamCharts provides three layers in the checked histories: monthly
+observations through 1 August 2026, daily observations from 9 August through
+6 October, and hourly observations from 6 October through the download date.
+Monthly observations are context rather than training rows; the training
+weeks from 10 August through 28 September are daily.
 
-## Player chart
+Twitch was omitted because its API has no historical hours-watched series. It
+describes streams live at request time, so it cannot provide the historical
+attention measure required for this model.
 
-Open with the week starting 28 September 2026: the Steam Autumn Sale begins
-on 1 October and Hong Kong National Day falls in the same week. Mark the
-Sunday 4 October cutoff on the player chart; no player count is added here
-until the chart is selected from the saved data.
+## 3. Training histogram and surge rule
 
-## Data access and quality
+*[Placeholder: insert the training-week histogram of `log_growth` with the
+surge rule marked.]*
 
-SteamCharts supplies monthly observations through 1 August 2026, daily
-observations from 9 August through 6 October, and hourly observations from 6
-October onward. Monthly history is context rather than a training row. The
-same zero-count timestamps appear across games, so isolated outage zeros are
-retained in `n_zeros` but excluded from the peak and mean when surrounded by
-ordinary observations.
+The surge rule identifies 5 of 192 training rows, giving a base rate of 2.6%.
 
-The live Steam endpoint was not used for historical training. Twitch was
-omitted because its API has no historical hours-watched series: it describes
-streams live at request time.
-Steam news is used instead through the project's saved Steam news JSON.
+## 4. Calendar comparison
 
-## Calendar rules
+Across the eight training weeks, the seven sale weeks had mean log-growth
+−0.0109 and mean absolute log-growth 0.1170, compared with −0.0453 and
+0.0941 for the one training week without a sale. The two holiday weeks had
+mean log-growth −0.0108 and mean absolute log-growth 0.1022, compared with
+−0.0167 and 0.1181 for the six weeks without a listed holiday. These are
+descriptive associations from a short sample, not causal effects.
 
-The calendar covers 10 August through 15 November 2026. Steam events are
-included only when their announcement date was public by the relevant Sunday
-cutoff; the official 2026 schedule was announced on 16 January. Hong Kong
-holidays in this interval are 26 September, 1 October, and 19 October.
-Weekends are handled by the fixed `weekend_days = 2` feature, not by listing
-Saturday and Sunday as holidays.
+## 5. Calendar case study
 
-## Histogram and calendar comparison
+For the week of 19–25 October 2026, Cooking Fest had ended, Next Fest was
+running, and the 19 October Hong Kong holiday was known by the Sunday cutoff;
+all were announced on 16 January 2026. The known feature columns were
+`appid`, `name`, `week_start`, `resolution`, `n_samples`, `n_zeros`, `peak`,
+`mean_players`, `wow_growth`, `growth_4w`, `median_4w`, `mad_4w`,
+`weekend_days`, `sale_this_week`, `sale_next_week`, `holiday_count`,
+`peer_median_growth`, `peer_set_size`, `news_count`, `days_since_news`,
+`major_update`, and `days_since_major_update`; `next_peak` and `log_growth`
+were not known on that Sunday.
 
-The saved training histogram contains 192 `log_growth` rows. The surge rule
-identifies 5 rows, giving a base rate of 2.6%. Across the eight training
-weeks, seven sale weeks averaged −0.0109 log-growth versus −0.0453 for the
-one no-sale week; two holiday weeks averaged −0.0108 versus −0.0167 for the
-six weeks without a listed holiday. These are descriptive associations, not
-causal effects.
+The saved test results pool both historical test weeks, so they are not
+per-week scores: unchanged peak 0.144049 (ratio 1.0), weekday pattern
+0.329979 (2.2907), ridge 0.126251 (0.8764), and XGBoost 0.131923 (0.9158).
 
-## Historical calendar case
-
-### Week of 19–25 October 2026
-
-By the Sunday cutoff on 25 October, Cooking Fest had ended on 19 October,
-Next Fest was running, and the Hong Kong holiday on 19 October was known;
-the schedule had been announced on 16 January. The saved
-`model/results/test.csv` pools both historical test weeks, so it does not
-provide a separate error for this one week: unchanged peak 0.144049 (ratio
-1.0), weekday pattern 0.329979 (2.2907), ridge 0.126251 (0.8764), and
-XGBoost 0.131923 (0.9158). These are pooled test errors, not a per-week
-score.
-
-## Live week
-
-*Blank until 16 November; then copy only from `model/results/live_week.csv`.*
-
-## Limits
-
-The training history is short, the momentum columns are correlated, and a
-calendar flag is an association rather than a causal effect. Twitch has no
-usable public historical export for this model. The live-week result remains
-blank until 16 November and will then be copied only from
-`model/results/live_week.csv`.
+## 6. Live week
