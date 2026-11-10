@@ -104,3 +104,4 @@ collected_at_utc,steam_ok,steam_fail,twitch_ok,twitch_fail,twitch_status,seconds
 2026-11-10T19:11:47Z,24,0,0,0,skipped_no_credentials,8.6
 2026-11-10T20:13:06Z,24,0,0,0,skipped_no_credentials,8.7
 2026-11-10T21:11:52Z,24,0,0,0,skipped_no_credentials,8.8
+2026-11-10T22:12:29Z,24,0,0,0,skipped_no_credentials,9.4
