@@ -76,11 +76,39 @@ hand-worked unchanged-peak errors are in `analysis/peer_notes.md`.
 
 ## Model comparison
 
-*Not in yet: test error and error ratio, copied from
-`model/results/test.csv`.*
+Every model is scored with the same target, the same split and the same
+error: the mean absolute error (MAE) of log growth. The ratio divides that
+error by the unchanged-peak error, so below 1 means the model beat the
+baseline. Historical test, weeks of 19 October and 26 October (48 rows),
+copied from `model/results/test.csv`:
 
-*Not in yet: full XGBoost, without calendar, without peer column, copied
-from `model/results/ablation.csv`.*
+| Model | Test MAE | Ratio to unchanged peak |
+|---|---|---|
+| Unchanged peak | 0.1440 | 1.000 |
+| Weekday pattern | 0.3300 | 2.291 |
+| Ridge | 0.1263 | 0.876 |
+| Shallow XGBoost | 0.1319 | 0.916 |
+
+Chronos-2 small, zero-shot on player history only, scored 0.1401 (ratio
+0.973; `model/results/chronos_note.txt`).
+
+The same XGBoost three times, copied from `model/results/ablation.csv`:
+
+| XGBoost | Test MAE | Ratio to unchanged peak |
+|---|---|---|
+| Full | 0.1319 | 0.916 |
+| Without calendar columns | 0.1413 | 0.981 |
+| Without `peer_median_growth` | 0.1424 | 0.988 |
+
+On the test weeks, removing the peer column cost XGBoost most of its edge
+over the baseline. On the validation weeks the same removal changed the error
+by under 0.001, and on the training weeks the peer median predicted next
+week's direction no better than always guessing "down". With 48 rows per
+split, the peer result is suggestive, not settled.
+
+The second test week's outcomes come from 2–8 November, which was not yet
+complete when these scores were saved on 7 November (79–81 of 168 hourly
+samples); see `analysis/peer_notes.md`.
 
 ## Case
 
@@ -88,8 +116,11 @@ HELLDIVERS 2, week of 19–25 October (historical test). On Sunday its own
 peak was up about 65% on the week before (`wow_growth` +0.50), while its
 co-op/live-service peers were slightly down (`peer_median_growth` −0.04). The
 next week its peak fell about 39% (`log_growth` −0.49). The peers had the
-direction right but not the size. Model errors for this row: *not in yet,
-from `model/results/test.csv`.*
+direction right but not the size. The unchanged-peak error for this row was
+0.4936, more than three times the pooled test error of 0.1440. Chronos-2,
+using only HELLDIVERS 2's own history, predicted an 11% fall (error 0.3773):
+also the right direction, also far too small. Ridge and XGBoost errors are
+not saved per row. Details are in `analysis/case_peers.md`.
 
 ## Live week
 
@@ -102,4 +133,11 @@ not the true hourly peak. Twitch is not in the model because it has no
 history the model can train on; Steam news is the attention signal, and
 SullyGnome was read by hand for at most one example. Momentum columns are
 built from the same player series and are correlated. The study does not
-show that a sale, a news post or a peer game caused a surge.
+show that a sale, a news post or a peer game caused a surge. The historical
+test was scored before its second outcome week was complete. Ridge was refit
+on all 288 labelled rows before the live forecast, so the live model is not
+the exact object that scored 0.876.
+
+Checked by hand: three SteamCharts pages against calendar dates (Sienna),
+five unchanged-peak errors on a calculator (Soha), and the sealed forecast
+file's game names, peer groups and timestamp (Soha).

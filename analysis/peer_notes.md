@@ -114,3 +114,34 @@ Mean of the five errors: (0.0989 + 0.0889 + 0.0462 + 0.0197 + 0.0090) / 5 =
 **0.0525**. Each ln(ratio) matches the `log_growth` value in the panel to
 four decimals. An error of 0.0989 means Counter-Strike 2's peak was about 9%
 lower than the unchanged forecast; Dota 2 was within 1%.
+
+## Check of the sealed live forecast
+
+File: `data/live/forecast_2026-11-09.csv`, committed by Destiny in 4eeeebe
+at 23:59 HKT on Sunday 8 November. Checked on 13 November against
+`collect/games.csv` and `analysis/peers.csv`.
+
+- The file has 24 rows, one per game; no game is missing or repeated.
+- Every `name` matches the `name` for the same `appid` in `collect/games.csv`
+  exactly.
+- Every `appid` in the file appears exactly once in `analysis/peers.csv`, so
+  each game's peer group is the one in this file (shooter 6, co-op/live
+  service 5, survival/sandbox 5, RPG 4, other PvP 4). The forecast file has
+  no peer-group column of its own.
+- Every `emitted_at_utc` is 2026-11-08T15:59:30Z, before Monday 00:00 UTC.
+  This is 59 minutes after the 23:00 HKT push deadline in the README, and
+  before any of the 9–15 November week existed.
+
+## Note on the historical test scores
+
+`model/results/test.csv` was scored at 20:55 HKT on Saturday 7 November. The
+outcome for the second test week (26 October–1 November) is the peak of 2–8
+November, which was not yet complete: those rows then held 79–81 of 168
+hourly samples, with the weekend missing. The panel was rebuilt on Sunday
+night after a full SteamCharts download, and the same rows now hold 160
+samples. For example, Dota 2's `next_peak` for the week of 26 October was
+709,821 when the test was scored and is 829,390 in the rebuilt panel. The
+saved test scores therefore use outcomes that have since changed. Whether to
+re-score that week is Destiny's decision; I have not computed a second set
+of scores. The first test week (19–25 October) is not affected: its outcome
+week had all 168 samples.

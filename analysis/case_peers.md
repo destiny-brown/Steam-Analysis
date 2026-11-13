@@ -38,5 +38,23 @@ why HELLDIVERS 2 rose or fell.
 
 ## Model errors
 
-*Not in yet: each model's error for this row, copied from
-`model/results/test.csv` once Destiny scores the historical test.*
+| Model | Error for this row | Source |
+|---|---|---|
+| Unchanged peak | 0.4936 | Absolute value of `log_growth` (−0.4936) in `week_panel.csv` |
+| Chronos-2 small, zero-shot | 0.3773 | Row for 553850, week 2026-10-19, in `model/results/chronos_note.txt` (predicted −0.1163) |
+| Ridge | not saved per row | `model/results/test.csv` holds only the pooled error |
+| XGBoost | not saved per row | `model/results/test.csv` holds only the pooled error |
+
+For comparison, the pooled test errors in `model/results/test.csv` (both test
+weeks, 48 rows) are: unchanged peak 0.1440, weekday pattern 0.3300, Ridge
+0.1263, XGBoost 0.1319. This one row's unchanged-peak error, 0.4936, is more
+than three times the pooled figure: HELLDIVERS 2 is one of the largest
+misses in the test weeks.
+
+Chronos-2, which sees only the game's own player history, predicted a fall of
+about 11%: the right direction, but still far short of the 39% fall. Like the
+peer median, it had the direction but not the size.
+
+This row's outcome week (26 October–1 November) was complete when the test
+was scored, so the note in `analysis/peer_notes.md` about the second test
+week does not affect it.

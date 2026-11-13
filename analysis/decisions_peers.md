@@ -16,3 +16,8 @@ a1cdfe2).
    raised the validation MAE to 0.1099, a change of 0.0008, so the peer
    column made almost no difference and neither version beat the unchanged
    peak.
+5. Historical test (7 November): XGBoost test MAE 0.1319; without
+   `peer_median_growth` it was 0.1424 (ratio to the unchanged peak 0.916
+   rising to 0.988), so on the test weeks the peer column helped, unlike on
+   validation, and the second test week's outcomes were not yet complete when
+   these scores were saved (see `analysis/peer_notes.md`).
