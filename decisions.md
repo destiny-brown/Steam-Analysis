@@ -50,7 +50,12 @@ dispatch only); no more hourly bot commits. .gitignore now excludes the
 course guide PDF, report template docx, checkpoint_destiny.*, .DS_Store, and
 report/final LaTeX build artifacts (main.aux/blg/log/out untracked via
 git rm --cached; main.bbl kept tracked for single-pass compiles). The Mac
-launchd leg still runs locally — harmless, writes only data/live/.
+launchd leg then retired too: launchd job unloaded and the plist renamed to
+.disabled so it cannot reload at login; final data/live state committed.
+README gains a "Final deliverables" section at the top (report, slides,
+headline result, sealed forecast, scoring commits) so the finished work is
+the first thing a visitor sees; the locked plan stays below as
+pre-registration evidence, with the Recorder section updated to past tense.
 
 Remaining before Tue 23:59 HKT submission: teammates review both PDFs
 tonight; each adds one live-week sentence to report/01 (Soha) and report/02

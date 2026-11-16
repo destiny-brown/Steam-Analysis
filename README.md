@@ -4,6 +4,23 @@ On Sunday night, using only information already public, can we forecast next wee
 
 Repository: https://github.com/destiny-brown/Steam-Analysis
 
+## Final deliverables (submitted 17 November 2026)
+
+- **Report:** [`report/final/main.pdf`](report/final/main.pdf) — 8 pages, source in `report/final/main.tex`
+- **Slides:** [`report/final/slides.pdf`](report/final/slides.pdf) — 15 slides, source in `report/final/slides.md`
+- **Headline result:** ridge beats the unchanged-peak baseline by 12% on the one-touch historical test (MAE 0.1263 vs 0.1440, ratio 0.876); on the sealed live week (9–15 Nov) the edge did not survive (ratio 1.041) — the week contained Path of Exile's 21× expansion surge, named in writing as the model's blind spot five days before it happened.
+- **Sealed forecast:** `data/live/forecast_2026-11-09.csv` (emitted 8 Nov 15:59:30 UTC, commit `4eeeebe`, never edited)
+- **Live-week scoring:** `model/results/live_week.csv` (scored once, 16 Nov, commit `6e576b2`)
+- **Reproduction:** pipeline order and environment in §4.2–4.3 of the report; session-by-session decision log in `decisions.md`.
+
+*Both recorder legs were retired on 16 November 2026 after scoring completed (cron trigger removed from `.github/workflows/collect.yml`; Mac launchd job unloaded).*
+
+---
+
+## The plan (locked 6 November 2026)
+
+Submission is **Tuesday 17 November 2026**. The forecast file for the week of 9–15 November is sealed by **23:00 Hong Kong time on Sunday 8 November**. That file is not edited after it is saved. The week is scored on **Monday 16 November**, after 07:59 Hong Kong time, when the recorded week is complete. Tuesday is for uploading.
+
 Submission is **Tuesday 17 November 2026**. The forecast file for the week of 9–15 November is sealed by **23:00 Hong Kong time on Sunday 8 November**. That file is not edited after it is saved. The week is scored on **Monday 16 November**, after 07:59 Hong Kong time, when the recorded week is complete. Tuesday is for uploading.
 
 ## Team
@@ -262,7 +279,7 @@ python3 collect/collect_once.py --status
 
 Steam player counts are collected on every run. Twitch collection stays switched off. The Mac schedule is `collect/group18.steamcollector.plist`, at 5 minutes past every hour. The computer has to be awake. Missing hours stay missing.
 
-A cloud replica runs the same script in GitHub Actions (`.github/workflows/collect.yml`), hourly at :05 UTC, writing `data/live/cloud/` — a separate directory so bot pushes never collide with the Mac's files. The cloud series covers hours when the laptop is asleep. On 16 November the scoring step merges both series, deduplicating by (appid, hour) with the Mac copy preferred, and re-downloads SteamCharts hourly as a third leg.
+A cloud replica ran the same script in GitHub Actions (`.github/workflows/collect.yml`), hourly at :05 UTC, writing `data/live/cloud/` — a separate directory so bot pushes never collide with the Mac's files. The cloud series covers hours when the laptop is asleep. On 16 November the scoring step merges both series, deduplicating by (appid, hour) with the Mac copy preferred, and re-downloads SteamCharts hourly as a third leg. Both legs were retired on 16 November after scoring: the workflow's cron trigger is removed (manual dispatch only) and the Mac launchd job is unloaded.
 
 `collect/feasibility_steamcharts.py` rewrites `data/feasibility/steamcharts_resolution.txt` from the saved JSON. Use `--refresh` only when you intend to download again.
 
