@@ -9,8 +9,8 @@
 \title{The Sunday Forecast: Predicting Next Week's Peak Steam Players\\with Baselines, Boosted Trees, and a Foundation Model}
 \author{Group 18\\
 {}Brown Destiny Sotonye (3036456475)\\
-{}Tam Hoi Wing ([Student ID])\\
-{}Soha Ali ([Student ID])}
+{}Tam Hoi Wing (3036344426)\\
+{}Soha Ali (3036344725)}
 
 \begin{document}
 \maketitle
@@ -54,17 +54,17 @@ using only features known by Sunday 23:59 UTC, and beat the free baseline that p
 
 \section{Experiments and Reproducibility}
 \subsection{Experimental Protocol}
-Splits are chronological, never random: a random split would let a model learn a game's later weeks and ``predict'' its earlier ones. Training: eight weeks starting 10 August (192 rows). Validation: 5--18 October (48 rows). Historical test: the two \emph{feature weeks} starting 19 and 26 October (48 rows), each row's target the \emph{following} week's peak, \emph{scored once} on 7 November with the ladder frozen. The second feature week's outcomes are therefore the peak of 2--8 November, which at scoring time was only 79--81 of 168 hourly samples complete --- a stated limitation. The validation window was calm (the unchanged-peak baseline posted the lowest validation MAE, 0.0895), so we used it to discriminate among \emph{feature} models --- ridge (0.0980) over XGBoost (0.1091), with a far smaller train-to-validation gap --- and left the features-versus-baseline question to the more volatile test weeks, rather than letting 48 quiet rows veto the feature families outright. Leakage controls: every feature for week $t$ uses timestamps inside $t$ or earlier; the live forecast for 9--15 November was emitted 8 November 15:59:30 UTC, committed to GitHub before the week began, and never edited. For the live forecast only, ridge was refit on all 288 labeled rows (standard post-evaluation practice; the test weeks precede the forecast week, so no leakage) --- the 0.876 test score belongs to the train-only fit and stands untouched. The live week was scored once, 16 November, against merged recorder data with zero-counts dropped.
+Splits are chronological, never random: a random split would let a model learn a game's later weeks and ``predict'' its earlier ones. Training: eight weeks starting 10 August (192 rows). Validation: 5--18 October (48 rows). Historical test: the two \emph{feature weeks} starting 19 and 26 October (48 rows), each row's target the \emph{following} week's peak, \emph{scored once} on 7 November with the ladder frozen. The second feature week's outcomes are therefore the peak of 2--8 November, which at scoring time was only 79--81 of 168 hourly samples complete --- a stated limitation. The validation window was calmer than the test weeks in typical movement (mean $|$log-growth$|$ 0.0895 vs.\ 0.1440) though not surge-free (2 of its 48 rows met the surge rule; per-window diagnostics in the Supplementary), and on it the unchanged-peak baseline posted the lowest MAE (0.0895). That gap, however, is statistically indistinguishable from zero: the mean paired per-row difference between baseline and ridge is $-0.0085$ (paired-bootstrap 95\% CI $[-0.026, +0.010]$, 10{,}000 resamples; baseline wins only 27 of 48 rows). Validation therefore could not adjudicate features versus baseline, so we used it for the question it could answer --- discriminating among \emph{feature} models, ridge (0.0980) over XGBoost (0.1091) with a far smaller train-to-validation gap --- and left the features-versus-baseline question to test weeks whose larger typical movement gives features room to matter. Leakage controls: every feature for week $t$ uses timestamps inside $t$ or earlier; the live forecast for 9--15 November was emitted 8 November 15:59:30 UTC, committed to GitHub before the week began, and never edited. For the live forecast only, ridge was refit on all 288 labeled rows (standard post-evaluation practice; the test weeks precede the forecast week, so no leakage) --- the 0.876 test score belongs to the train-only fit and stands untouched. The live week was scored once, 16 November, against merged recorder data with zero-counts dropped.
 
 \subsection{Data and Code for Reproduction}
-Repository: \url{https://github.com/destiny-brown/Steam-Analysis}, commit \texttt{6e576b2} \citep{group18repo}. Pipeline order: \texttt{collect/download\_steamcharts.py --refresh} $\rightarrow$ \texttt{model/build\_week\_panel.py} $\rightarrow$ \texttt{model/train.py} (writes \texttt{validation.csv}, \texttt{test.csv}, \texttt{ablation.csv}) $\rightarrow$ \texttt{model/run\_chronos.py} $\rightarrow$ \texttt{model/forecast.py} (sealed forecast) $\rightarrow$ \texttt{model/score\_live\_week.py} (writes \texttt{live\_week.csv}). Every number in this report is copied from those CSVs; the dated session log (\texttt{decisions.md}) records each decision when made.
+Repository: \url{https://github.com/destiny-brown/Steam-Analysis}, commit \texttt{0eec39a} \citep{group18repo}. Pipeline order: \texttt{collect/download\_steamcharts.py --refresh} $\rightarrow$ \texttt{model/build\_week\_panel.py} $\rightarrow$ \texttt{model/train.py} (writes \texttt{validation.csv}, \texttt{test.csv}, \texttt{ablation.csv}) $\rightarrow$ \texttt{model/run\_chronos.py} $\rightarrow$ \texttt{model/forecast.py} (sealed forecast) $\rightarrow$ \texttt{model/score\_live\_week.py} (writes \texttt{live\_week.csv}) $\rightarrow$ \texttt{model/ablate\_full.py} (writes \texttt{ablation\_full.csv}; re-derives Table~\ref{tab:ablation} from the frozen panel with replication asserts). Every number in this report is copied from those CSVs; the dated session log (\texttt{decisions.md}) records each decision when made.
 
 \subsection{Computing Platform and Environment}
 Personal MacBook (Apple M1), macOS, CPU only. Python 3.14.7; NumPy 2.5.4 \citep{harris2020numpy}, pandas 3.1.1 \citep{mckinney2010pandas}, matplotlib 3.11.2 \citep{hunter2007matplotlib}, XGBoost 3.4.1 \citep{chen2016xgboost}, PyTorch 2.15.0, chronos-forecasting 2.3.2 (\texttt{autogluon/chronos-2-small}, accessed 7 November 2026) \citep{ansari2024chronos}. Panel build under a minute; the classical ladder fits in seconds; Chronos-2 zero-shot inference for 48 rows ran on CPU. Data collection used the two recorder legs above at hourly cadence.
 
 \section{Results and Discussion}
 \subsection{Historical evaluation}
-Table~\ref{tab:ladder} is the frozen ladder. Two findings survive contact with the test weeks. First, \emph{regularization beats capacity}: ridge generalizes (train 0.112, test 0.126) where XGBoost overfits (train 0.044, test 0.132), so the simplest real model wins the test. Second, \emph{the foundation model's zero-shot edge is thin}: Chronos-2 beats the baseline by under 3\% with no features at all --- impressive transfer, but far behind a ridge on hand-built features, an informative negative result for the foundation-model hypothesis at this data scale. The weekday-pattern sanity check fails catastrophically (ratio 2.291), confirming the target is not a memory problem. The ablation (Table~\ref{tab:ablation}, run on XGBoost) shows the calendar and peer columns carrying most of that model's test edge; the major-update flags contribute little, and momentum features were not isolated. Peer momentum alone is descriptive, not predictive: games move with their group in the same week 65.5\% of the time, but the group median predicts next week's direction only 54.8\% of the time --- below always guessing ``down'' (62.5\%) --- with RPGs the only strong group. Calendar flags show small, directionally sensible associations (sale weeks mean growth $-0.011$ vs.\ $-0.045$ without), descriptive only on eight training weeks.
+Table~\ref{tab:ladder} is the frozen ladder. Two findings survive contact with the test weeks. First, \emph{regularization beats capacity}: ridge generalizes (train 0.112, test 0.126) where XGBoost overfits (train 0.044, test 0.132), so the simplest real model wins the test. Second, \emph{the foundation model's zero-shot edge is thin}: Chronos-2 beats the baseline by under 3\% with no features at all --- impressive transfer, but far behind a ridge on hand-built features, an informative negative result for the foundation-model hypothesis at this data scale. The weekday-pattern sanity check fails catastrophically (ratio 2.291), confirming the target is not a memory problem. The ablation (Table~\ref{tab:ablation}, run on both learners with the momentum block isolated) shows the two models drawing on different information. Both rest on momentum: without it ridge keeps only part of its edge (ratio 0.876 $\to$ 0.931) while XGBoost collapses below the baseline (1.278). On top of momentum they differ: XGBoost exploits the calendar and peer columns, whereas ridge gains nothing from them --- dropping the peer column \emph{improves} ridge's test ratio to 0.857, quantitative evidence from the recommended model that peer momentum does not transfer linearly. On 48 rows these shifts are diagnostics, not rankings. Peer momentum alone is descriptive, not predictive: games move with their group in the same week 65.5\% of the time, but the group median predicts next week's direction only 54.8\% of the time --- below always guessing ``down'' (62.5\%) --- with RPGs the only strong group. Calendar flags show small, directionally sensible associations (sale weeks mean growth $-0.011$ vs.\ $-0.045$ without), descriptive only on eight training weeks.
 
 \begin{table}[t]
 \centering\small
@@ -85,16 +85,19 @@ Chronos-2 small (zero-shot) & --- & --- & 0.1401 & 0.973 \\
 
 \begin{table}[t]
 \centering\small
-\caption{XGBoost ablation on the one-touch test weeks.}
+\caption{Drop-one-group ablation on the one-touch test weeks, for ridge (the recommended model) and XGBoost, recomputed from the frozen panel (\texttt{ablation\_full.csv}). Both models rest on the momentum block; only XGBoost exploits calendar and peer, and dropping peer \emph{improves} ridge. Diagnostics on 48 rows, not rankings.}
 \label{tab:ablation}
-\begin{tabular}{lcc}
+\begin{tabular}{lcccc}
 \toprule
-Features & Test MAE & Ratio \\
+& \multicolumn{2}{c}{Ridge (recommended)} & \multicolumn{2}{c}{XGBoost} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+Dropped group & Test MAE & Ratio & Test MAE & Ratio \\
 \midrule
-Full & 0.1319 & 0.916 \\
-Without calendar & 0.1413 & 0.981 \\
-Without peer momentum & 0.1424 & 0.988 \\
-Without major-update flags & 0.1334 & 0.926 \\
+None (full) & \textbf{0.1263} & \textbf{0.876} & 0.1319 & 0.916 \\
+Momentum & 0.1341 & 0.931 & 0.1840 & 1.278 \\
+Calendar & 0.1285 & 0.892 & 0.1413 & 0.981 \\
+Major-update flags & 0.1282 & 0.890 & 0.1334 & 0.926 \\
+Peer momentum & 0.1234 & 0.857 & 0.1424 & 0.988 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -142,7 +145,7 @@ Sealed live week (24 game-weeks) & 0.2281 & 0.2190 & \textbf{1.041} \\
 \textbf{Limitations.} Twelve usable weeks and 24 games; 48 rows per split, so single rows move ratios. Early weeks are daily samples, not true hourly peaks. The second historical test week's outcomes were incomplete at scoring. The live model is a refit, not the exact tested object. Momentum features derive from one series and correlate. Peer groups are hand-assigned. Nothing here shows a sale, post, or peer \emph{caused} a surge.
 
 \section{Conclusion}
-Can momentum, calendar, peer, and news features beat the unchanged-peak baseline? \emph{On held-out history, yes} --- ridge's 12\% edge, with the XGBoost ablation showing the calendar and peer columns carrying most of that model's edge. \emph{Does the edge survive a sealed forecast? Not this week} --- one draw containing a 21$\times$ surge we had identified, in advance and in writing, as the model's blind spot. The strongest supported findings: weekly peak growth is predictable in its center and not in its tail; regularized linear models on disciplined features currently beat both boosted trees and zero-shot foundation models at this scale; and pre-registered evaluation turns a losing week into evidence rather than embarrassment. The clearest next step follows directly from the miss: expansion and release dates are public \emph{calendar} information (Path of Exile's was announced long before 8 November), so a ``known future content'' feature --- not news about the present week --- is the obvious addition. Beyond that: more seasons of data, quantile rather than point forecasts, and a surge-class classifier.
+Can momentum, calendar, peer, and news features beat the unchanged-peak baseline? \emph{On held-out history, yes} --- ridge's 12\% edge, carried chiefly by its momentum features (ablation: 0.876 $\to$ 0.931 without them) with no measurable help from the peer column. \emph{Does the edge survive a sealed forecast? Not this week} --- one draw containing a 21$\times$ surge we had identified, in advance and in writing, as the model's blind spot. The strongest supported findings: weekly peak growth is predictable in its center and not in its tail; regularized linear models on disciplined features currently beat both boosted trees and zero-shot foundation models at this scale; and pre-registered evaluation turns a losing week into evidence rather than embarrassment. The clearest next step follows directly from the miss: expansion and release dates are public \emph{calendar} information (Path of Exile's was announced long before 8 November), so a ``known future content'' feature --- not news about the present week --- is the obvious addition. Beyond that: more seasons of data, quantile rather than point forecasts, and a surge-class classifier.
 
 \section*{Author Contributions}
 \begin{center}
@@ -170,6 +173,9 @@ We used an AI coding assistant (Cursor) for code drafting, debugging, documentat
 
 \clearpage
 \section*{Supplementary Materials}
-Supplementary artifacts in the repository \citep{group18repo}: validation diagnostics (\texttt{pred\_vs\_actual.png}, \texttt{residuals.png}); the model-ladder bar chart (\texttt{report/figures/soha\_model\_ladder.png}); the full 24-row live-week scoring table with per-leg peaks (\texttt{model/results/live\_week.csv}); Chronos-2 per-row forecasts (\texttt{model/results/chronos\_note.txt}); recorder health logs for both legs (\texttt{data/live/collector\_runs.csv}, \texttt{data/live/cloud/}); the sealed forecast file itself (\texttt{data/live/forecast\_2026-11-09.csv}, emitted 8 November 2026 15:59:30 UTC); and the dated session log (\texttt{decisions.md}) from which this report's method section is drawn.
+Supplementary artifacts in the repository \citep{group18repo}: validation diagnostics (\texttt{pred\_vs\_actual.png}, \texttt{residuals.png}); the model-ladder bar chart (\texttt{report/figures/soha\_model\_ladder.png}); the full 24-row live-week scoring table with per-leg peaks (\texttt{model/results/live\_week.csv}); Chronos-2 per-row forecasts (\texttt{model/results/chronos\_note.txt}); recorder health logs for both legs (\texttt{data/live/collector\_runs.csv}, \texttt{data/live/cloud/}); the sealed forecast file itself (\texttt{data/live/forecast\_2026-11-09.csv}, emitted 8 November 2026 15:59:30 UTC); the two-model drop-one-group ablation grid (\texttt{model/results/ablation\_full.csv}); and the dated session log (\texttt{decisions.md}) from which this report's method section is drawn.
+
+\smallskip
+\noindent\emph{Per-window volatility diagnostics} (frozen panel; behind the validation-selection discussion of Section 4.1): mean $|$log-growth$|$ for train/validation/test $= 0.114/0.090/0.144$; surge-rule rows $5/2/0$ out of $192/48/48$; target standard deviation $0.222/0.139/0.134$. The validation baseline--ridge paired gap of $-0.0085$ has a paired-bootstrap 95\% CI of $[-0.026, +0.010]$ (10{,}000 resamples, seed 0); the baseline wins 27 of 48 validation rows.
 
 \end{document}

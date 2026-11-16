@@ -56,7 +56,7 @@ For 24 games followed weekly from August to November 2026:
 
 - **Ridge wins the one-touch test: ratio 0.876** — chronological splits, validation for selection, test scored once
 - Chronos-2 zero-shot: 0.973 — real transfer with no features, but a thin edge
-- Ablation: dropping calendar (0.1413) or peers (0.1424) costs XGBoost its edge — **every feature family contributes**
+- Ablation on both learners: both rest on **momentum** (XGBoost without it: 1.278, worse than baseline); XGBoost also exploits calendar + peers — ridge does not (dropping peers *improves* ridge to 0.857)
 - Ridge generalizes (0.112→0.126); XGBoost overfits (0.044→0.132) — full table in backup
 
 ::: notes
@@ -92,7 +92,7 @@ Week of 19 Oct: own peak +65% week-over-week, peers slightly down. Next week: �
 - **Path of Exile: +3.05 log-growth (~21×, 7.2k → 151.5k)** on the 13 Nov expansion — one row, over half the total error. Named in writing five days before it happened.
 - Marvel Rivals +0.54 — a surge by our own rule
 - Model still won 11 of 24 games — caught every large decline; lost on flat games (baseline's home turf) and 7 modest rises
-- At 2.6% surge rate, a 24-game week had ~47% chance of $\ge$1 surge: **the draw was a coin flip**
+- At 2.6% surge rate, a 24-game week had ~47% chance of $\ge$ 1 surge: **the draw was a coin flip**
 - **Verified three ways**: recorder legs agree <10%; SteamCharts re-download within 2.4% on 23/24 (PoE: 151,488 vs 151,348)
 
 ## Limits and next step
@@ -120,11 +120,13 @@ All numbers traced to committed files; three hand-checks (SteamCharts pages, bas
 | Ridge | 0.1117 | 0.0980 | 0.1263 |
 | XGBoost | 0.0442 | 0.1091 | 0.1319 |
 
+Baseline "won" validation — but that gap is noise: paired baseline-vs-ridge difference −0.0085, bootstrap 95% CI [−0.026, +0.010], baseline wins only 27/48 rows. Validation (calm: mean |growth| 0.090 vs test 0.144) couldn't judge features-vs-baseline, so it selected *among feature models* (ridge over XGBoost).
+
 Second test week's outcomes were 79–81 of 168 hourly samples complete at scoring (documented). Ridge for the live forecast was refit on all 288 labeled rows — standard post-evaluation practice, no leakage.
 
 ## Backup: reproducibility
 
-- Repo: `github.com/destiny-brown/Steam-Analysis`, commit `6e576b2`
-- Pipeline: `download_steamcharts.py --refresh` → `build_week_panel.py` → `train.py` → `run_chronos.py` → `forecast.py` → `score_live_week.py`
+- Repo: `github.com/destiny-brown/Steam-Analysis`, commit `0eec39a`
+- Pipeline: `download_steamcharts.py --refresh` → `build_week_panel.py` → `train.py` → `run_chronos.py` → `forecast.py` → `score_live_week.py` → `ablate_full.py`
 - MacBook M1, CPU only; Python 3.14.7, XGBoost 3.4.1, chronos-forecasting 2.3.2 (`autogluon/chronos-2-small`)
 - Full live-week table: `model/results/live_week.csv`; session log: `decisions.md`

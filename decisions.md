@@ -17,9 +17,36 @@ to `main.tex` and recompiled (still exactly 8 pages), commit 3b7e765:
 3. §6 conclusion now attributes the calendar/peer finding to the XGBoost
    ablation, matching §5.1.
 
-Remaining before Tue 23:59 HKT submission: Sienna's and Soha's student IDs in
-the author block (the only blocker); teammates add one live-week sentence each
-to report/01 and report/02.
+Marker's A+ bar ("validation-selection discussed with evidence; ablation on
+the model you actually recommend") then implemented the same afternoon:
+- New `model/ablate_full.py` re-derives a 2x5 drop-one-group grid (ridge +
+  XGBoost, momentum block now isolated) from the FROZEN panel ae6edcc, with
+  asserts that full-model cells reproduce test.csv/ablation.csv exactly
+  (commit 0eec39a). Results: both models rest on momentum (ridge 0.876→0.931
+  without it; XGBoost collapses to 1.278, worse than baseline); XGBoost alone
+  exploits calendar/peer; dropping peer IMPROVES ridge to 0.857 — peer
+  momentum does not transfer to the recommended linear model.
+- Validation evidence (frozen panel, computed read-only): validation calmer
+  in typical movement (mean |log-growth| 0.0895 vs test 0.1440) but NOT
+  surge-free (2/48 rows; test 0/48; train 5/192); baseline-vs-ridge paired
+  gap −0.0085, paired-bootstrap 95% CI [−0.026, +0.010] (10k resamples,
+  seed 0), baseline wins 27/48 rows — i.e. validation could not adjudicate
+  features-vs-baseline, exactly the selection policy now defended in §4.1.
+- main.tex: §4.1 evidence paragraph, §5.1 two-model ablation prose, Table 2
+  now the full 2x5 grid, conclusion re-scoped to ridge's ablation,
+  reproduction pipeline extended, per-window diagnostics in Supplementary.
+  Sienna (3036344426) and Soha (3036344725) IDs added — no placeholders left.
+- slides.md: ablation bullet rewritten to match Table 2; backup validation
+  slide gains the bootstrap-CI answer for the expected Q&A question;
+  reproducibility slide bumped to commit 0eec39a; fixed a pre-existing broken
+  `$\ge$1` (pandoc closing-$-before-digit rule) that rendered as "$�$1".
+
+Both PDFs recompiled: main.pdf still exactly 8 pages (supplementary on p.8),
+slides.pdf 15 slides, zero missing-glyph warnings.
+
+Remaining before Tue 23:59 HKT submission: teammates review both PDFs
+tonight; each adds one live-week sentence to report/01 (Soha) and report/02
+(Sienna) from live_week.csv only.
 
 ## 2026-11-16 (Monday, scoring day) — Destiny (with AI pair)
 
