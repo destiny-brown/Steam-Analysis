@@ -52,11 +52,6 @@ ax.annotate(
     xy=(datetime(2026, 10, 9, tzinfo=timezone.utc), max(vals) * 0.55),
     ha="center", fontsize=8, color="dimgray",
 )
-ax.annotate(
-    "inputs: the feature week\n(known by the Sunday cutoff)",
-    xy=(datetime(2026, 9, 30, tzinfo=timezone.utc), min(vals) * 1.005),
-    ha="center", va="bottom", fontsize=8, color="dimgray",
-)
 ax.set_ylabel("Players")
 ax.set_title("Counter-Strike 2 concurrent players, 28 Sep - 11 Oct 2026")
 ax.xaxis.set_major_formatter(mdates.DateFormatter("%d %b"))
