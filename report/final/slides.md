@@ -122,6 +122,8 @@ All numbers traced to committed files; three hand-checks (SteamCharts pages, bas
 
 Baseline "won" validation — but that gap is noise: paired baseline-vs-ridge difference −0.0085, bootstrap 95% CI [−0.026, +0.010], baseline wins only 27/48 rows. Validation (calm: mean |growth| 0.090 vs test 0.144) couldn't judge features-vs-baseline, so it selected *among feature models* (ridge over XGBoost).
 
+Same bootstrap on the other windows (`bootstrap_gaps.csv`): **test** gap +0.0178, CI [−0.001, +0.036], ridge wins 34/48 — a narrow edge, not a tail guarantee; **live** gap −0.009, CI [−0.040, +0.021], 11/24 — one 24-game week settles nothing either way.
+
 Second test week's outcomes were 79–81 of 168 hourly samples complete at scoring (documented). Ridge for the live forecast was refit on all 288 labeled rows — standard post-evaluation practice, no leakage.
 
 ## Backup: reproducibility

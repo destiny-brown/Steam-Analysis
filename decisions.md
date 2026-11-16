@@ -57,6 +57,28 @@ headline result, sealed forecast, scoring commits) so the finished work is
 the first thing a visitor sees; the locked plan stays below as
 pre-registration evidence, with the Recorder section updated to past tense.
 
+Second marker pass (87/100, A) listed three A+ blockers; all fixed the same
+afternoon (commit 0257889 for code):
+1. Uncertainty: new model/bootstrap_gaps.py computes paired-bootstrap CIs
+   (10k, seed 0, fresh stream per window, asserts lock quoted values) for
+   ALL THREE gaps — validation [-0.0264, +0.0098], test +0.0178
+   [-0.0012, +0.0364] (34/48 wins), live -0.0091 [-0.0396, +0.0208]
+   (11/24). §5.1 gains the test interval ("narrow rather than dramatic"),
+   §5.2 the live interval ("statistically inconclusive on 24 rows" — one
+   week settles nothing either way), Table 3 caption softened from "The
+   historical edge is real", conclusion now says "narrow 12% edge".
+2. Layout: §4.3 was split by Tables 1-2 (floats at page top before their
+   section). flafter alone paralyzed the queue (10 pages); reverted.
+   Final fix: Tables 1-2 -> [b] bottom floats + \FloatBarrier before
+   Conclusion + fig_test_ridge/fig_peer 0.62 -> 0.54 linewidth. Back to
+   exactly 8 pages; §4.3 now opens p4 uninterrupted, T1 at p4 bottom
+   after §5.2 text, p6 order T3 -> F5 -> Limitations -> Conclusion.
+3. Small nits: hyperparameter note in §3 (alpha=1.0 and XGBoost settings
+   fixed a priori, no search BY DESIGN against 48-row selection
+   overfitting); Figure 5 caption now prints live MAE/ratio mirroring
+   Figure 3; §4.2 names one commit (0257889) with seal/scoring commits
+   noted as ancestors. Slides backup gains the test/live CI line for Q&A.
+
 Remaining before Tue 23:59 HKT submission: teammates review both PDFs
 tonight; each adds one live-week sentence to report/01 (Soha) and report/02
 (Sienna) from live_week.csv only.
