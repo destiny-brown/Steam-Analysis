@@ -1,0 +1,11 @@
+model,drop_group,test_mae,ratio_to_baseline
+ridge,full,0.126251,0.8764
+ridge,no_momentum,0.134137,0.9312
+ridge,no_calendar,0.128463,0.8918
+ridge,no_major_update,0.128156,0.8897
+ridge,no_peer,0.123418,0.8568
+xgboost,full,0.131923,0.9158
+xgboost,no_momentum,0.18404,1.2776
+xgboost,no_calendar,0.141319,0.9811
+xgboost,no_major_update,0.133436,0.9263
+xgboost,no_peer,0.142375,0.9884
