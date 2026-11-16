@@ -4,6 +4,46 @@ One entry per work session. Newest at the top. The next session (human or AI)
 reads this file first, then README.md. The report's method section is a
 cleaned version of this log, not a reconstructed story.
 
+## 2026-11-16 (Monday, scoring day) — Destiny (with AI pair)
+
+**The sealed forecast was scored once, today, ~13:10 HKT, against recorder
+data for 9-15 Nov that did not exist when the forecast was emitted.**
+
+| | MAE of log-growth |
+| --- | --- |
+| sealed ridge forecast (emitted 8 Nov) | 0.2281 |
+| unchanged-peak baseline | 0.2190 |
+| **ratio** | **1.0413 — the historical edge did not survive the live week** |
+
+**What happened, honestly:** the forecast called all 24 games down. The week
+was mixed, and it contained the exact event class the project documented as
+near-unpredictable: **Path of Exile's "Covens of Umbra" expansion launched
+13 Nov and the peak went from ~7.2k to 151.5k (log-growth +3.05, ~21x).**
+That single row contributes 0.129 of the 0.228 MAE. The seal-night entry
+named this event in advance as "the known wildcard, invisible to Sunday
+features" — the failure was predicted, dated, and public before it happened.
+Marvel Rivals also surged (+0.54, a 1.7x surge by the project's own rule).
+Excluding PoE, model MAE 0.104 vs baseline 0.096 (ratio 1.077): the down-bias
+still costs, because 7 games drifted up modestly.
+
+**Verification, three legs.** Mac and cloud recorder peaks agree within 10%
+on every game with both legs present. A post-week SteamCharts re-download
+agrees with the recorder within 2.4% on 23/24 games — including PoE
+(151,488 vs 151,348) and Marvel Rivals (93,128 vs 93,014), so both surges
+are real, not recorder artifacts. Exception: Team Fortress 2, recorder
+106,509 vs SteamCharts 121,688 (12.5%) — the recorder likely missed TF2's
+true peak hour during one of its sporadic failure windows (10, 13, 14 Nov).
+Scoring stands on the recorder per protocol; using SteamCharts for TF2 would
+move the ratio to ~1.041 — the headline is unchanged either way.
+
+**Answer to the research question:** on the historical test the edge was
+real (0.876). On the sealed live week it was not (1.041). One week is one
+draw; the report presents both numbers side by side, with the surge anatomy
+as the analysis, not as an excuse.
+
+Artifacts: `model/score_live_week.py`, `model/results/live_week.csv`,
+`model/results/live_week_pred_vs_actual.png`.
+
 ## 2026-11-08 (Sunday, seal night) — Destiny (with AI pair)
 
 **The live forecast is sealed.** `data/live/forecast_2026-11-09.csv` was
