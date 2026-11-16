@@ -143,21 +143,37 @@ def main() -> None:
     fig, ax = plt.subplots(figsize=(6, 6))
     actual = [float(r["actual_log_growth"]) for r in rows]
     pred = [float(r["predicted_log_growth"]) for r in rows]
-    ax.scatter(actual, pred, alpha=0.75)
-    lims = [min(actual + pred) - 0.05, max(actual + pred) + 0.05]
-    ax.plot(lims, lims, "r--", alpha=0.5, label="perfect prediction")
+    # Zoom to the dense region. Path of Exile (actual +3.05) is 5x beyond the
+    # next-largest value; without zoom the other 23 games collapse into a
+    # corner. PoE is marked with an edge arrow and its exact numbers instead.
+    X_LO, X_HI = -0.35, 0.65
+    ax.scatter(actual, pred, alpha=0.75, zorder=3)
+    ax.plot([X_LO, X_HI], [X_LO, X_HI], "r--", alpha=0.5, label="perfect prediction")
     ax.axhline(0, color="gray", lw=0.5)
     ax.axvline(0, color="gray", lw=0.5)
     for r in rows:
-        ax.annotate(
-            r["name"] if abs(float(r["actual_log_growth"])) > 0.15 else "",
-            (float(r["actual_log_growth"]), float(r["predicted_log_growth"])),
-            fontsize=7, alpha=0.8,
-        )
+        a = float(r["actual_log_growth"])
+        if abs(a) > 0.15 and X_LO <= a <= X_HI:
+            ax.annotate(
+                r["name"],
+                (a, float(r["predicted_log_growth"])),
+                fontsize=7, alpha=0.8,
+            )
+    poe = next(r for r in rows if r["name"] == "Path of Exile")
+    ax.annotate(
+        f"Path of Exile: actual {float(poe['actual_log_growth']):+.2f},\n"
+        f"predicted {float(poe['predicted_log_growth']):+.2f} (off scale)",
+        xy=(X_HI - 0.005, float(poe["predicted_log_growth"])),
+        xytext=(0.30, 0.18),
+        arrowprops=dict(arrowstyle="->", color="tab:red", lw=1.2),
+        fontsize=8, color="tab:red",
+    )
+    ax.set_xlim(X_LO, X_HI)
+    ax.set_ylim(X_LO, X_HI)
     ax.set_xlabel("Actual log-growth (recorder, 9-15 Nov)")
     ax.set_ylabel("Sealed prediction (emitted 8 Nov)")
     ax.set_title(f"Sealed forecast vs reality, 24 games\nMAE {model_mae:.4f} vs baseline {base_mae:.4f} (ratio {ratio:.3f})")
-    ax.legend()
+    ax.legend(loc="upper left")
     fig.tight_layout()
     fig.savefig(OUT_PNG, dpi=150)
     plt.close(fig)

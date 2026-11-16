@@ -52,15 +52,12 @@ For 24 games followed weekly from August to November 2026:
 
 ## The model ladder (Soha)
 
-| Model | Test MAE | Ratio |
-|---|---:|---:|
-| Unchanged peak (baseline) | 0.1440 | 1.000 |
-| Weekday pattern | 0.3300 | 2.291 |
-| **Ridge (chosen)** | **0.1263** | **0.876** |
-| Shallow XGBoost | 0.1319 | 0.916 |
-| Chronos-2 small, zero-shot | 0.1401 | 0.973 |
+![](../figures/soha_model_ladder.png){width=64%}
 
-Chronological splits; validation for selection; **test scored once**. Ablation: removing calendar (0.1413) or peers (0.1424) costs XGBoost its edge — every feature family contributes. Ridge generalizes (0.112→0.126); XGBoost overfits (0.044→0.132).
+- **Ridge wins the one-touch test: ratio 0.876** — chronological splits, validation for selection, test scored once
+- Chronos-2 zero-shot: 0.973 — real transfer with no features, but a thin edge
+- Ablation: dropping calendar (0.1413) or peers (0.1424) costs XGBoost its edge — **every feature family contributes**
+- Ridge generalizes (0.112→0.126); XGBoost overfits (0.044→0.132) — full table in backup
 
 ::: notes
 Soha. One sentence on Chronos: zero-shot, player history only, beats baseline by under 3% — thin edge, informative negative.

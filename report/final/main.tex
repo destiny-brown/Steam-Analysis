@@ -99,6 +99,20 @@ Without major-update flags & 0.1334 & 0.926 \\
 \end{tabular}
 \end{table}
 
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.62\linewidth]{figures/pred_vs_actual_test_ridge.png}
+\caption{Ridge, the chosen model, on the one-touch historical test weeks (48 rows). The cloud tracks the perfect-prediction line in the center; errors concentrate in the same right tail as Figure~\ref{fig:surge}.}
+\label{fig:testridge}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.62\linewidth]{figures/soha_peer_agreement.png}
+\caption{Direction agreement with the peer-group median: clearly descriptive in the same week, no better than guessing ``down'' for the next.}
+\label{fig:peer}
+\end{figure}
+
 Two case studies illustrate the error structure. HELLDIVERS 2 (week of 19 October): own peak up 65\% week-over-week while peers drifted down; next week the peak fell 39\% --- peers and Chronos-2 both had the direction, neither the size (baseline error 0.494, three times the pooled test error). The calendar case (week of 19--25 October, Cooking Fest ended, Next Fest running, a Hong Kong holiday known Sunday) shows the feature vector as seen at prediction time; such weeks sit near the distribution's center, where the model is reliable.
 
 \subsection{The sealed live week}

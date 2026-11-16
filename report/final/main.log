@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.4.30)  16 NOV 2026 13:17
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.4.30)  16 NOV 2026 13:25
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -636,58 +636,71 @@ st.py \T1/ptm/m/n/10 (+20) (sealed fore-cast) $\OMS/cmsy/m/n/10 !$
  []
 
 [3 <./figures/fig_surge_hist.png>]
-<figures/live_week_pred_vs_actual.png, id=117, 433.62pt x 433.62pt>
+<figures/pred_vs_actual_test_ridge.png, id=115, 433.62pt x 433.62pt>
+File: figures/pred_vs_actual_test_ridge.png Graphic file (type png)
+<use figures/pred_vs_actual_test_ridge.png>
+Package pdftex.def Info: figures/pred_vs_actual_test_ridge.png  used on input l
+ine 104.
+(pdftex.def)             Requested size: 259.881pt x 259.8895pt.
+<figures/soha_peer_agreement.png, id=118, 578.16pt x 325.215pt>
+File: figures/soha_peer_agreement.png Graphic file (type png)
+<use figures/soha_peer_agreement.png>
+Package pdftex.def Info: figures/soha_peer_agreement.png  used on input line 11
+1.
+(pdftex.def)             Requested size: 259.881pt x 146.18163pt.
+<figures/live_week_pred_vs_actual.png, id=121, 433.62pt x 433.62pt>
 File: figures/live_week_pred_vs_actual.png Graphic file (type png)
 <use figures/live_week_pred_vs_actual.png>
 Package pdftex.def Info: figures/live_week_pred_vs_actual.png  used on input li
-ne 123.
+ne 137.
 (pdftex.def)             Requested size: 301.80017pt x 301.81165pt.
  [4]
-Underfull \hbox (badness 10000) in paragraph at lines 145--145
+Underfull \hbox (badness 10000) in paragraph at lines 159--159
 []|\T1/ptm/m/n/9 (+20) Brown Des-tiny
  []
 
 
-Underfull \hbox (badness 5175) in paragraph at lines 145--145
+Underfull \hbox (badness 5175) in paragraph at lines 159--159
 []|\T1/ptm/m/n/9 (+20) Sale/holiday cal-en-dar re-search with an-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 145--145
+Underfull \hbox (badness 10000) in paragraph at lines 159--159
 []|\T1/cmtt/m/n/9 analysis/calendar*\T1/ptm/m/n/9 (+20) ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 145--145
+Underfull \hbox (badness 10000) in paragraph at lines 159--159
 \T1/cmtt/m/n/9 report/02_data_and_calendar.md\T1/ptm/m/n/9 (+20) ,
  []
 
 
-Underfull \hbox (badness 1603) in paragraph at lines 145--145
+Underfull \hbox (badness 1603) in paragraph at lines 159--159
 []|\T1/ptm/m/n/9 (+20) Peer-group tax-on-omy (five groups), peer
  []
 
 
-Underfull \hbox (badness 2735) in paragraph at lines 145--145
+Underfull \hbox (badness 2735) in paragraph at lines 159--159
 \T1/ptm/m/n/9 (+20) mo-men-tum fea-ture and anal-y-sis, model-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 145--145
+Underfull \hbox (badness 10000) in paragraph at lines 159--159
 []|\T1/cmtt/m/n/9 analysis/peers*\T1/ptm/m/n/9 (+20) ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 145--145
+Underfull \hbox (badness 10000) in paragraph at lines 159--159
 \T1/cmtt/m/n/9 report/01_question_and_peers.md\T1/ptm/m/n/9 (+20) ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 145--145
+Underfull \hbox (badness 10000) in paragraph at lines 159--159
 \T1/cmtt/m/n/9 report/slides_soha.md\T1/ptm/m/n/9 (+20) ,
  []
 
-[5 <./figures/live_week_pred_vs_actual.png>] (./main.bbl
+[5 <./figures/pred_vs_actual_test_ridge.png> <./figures/soha_peer_agreement.png
+>] [6 <./figures/live_week_pred_vs_actual.png>] (./main.bbl
 Underfull \hbox (badness 2285) in paragraph at lines 53--58
 []\T1/ptm/m/n/9 (+20) SteamCharts.  Steam-charts: Steam player statis-tics.  []
 $\T1/cmtt/m/n/9 https : / / steamcharts . com$[]\T1/ptm/m/n/9 (+20) , 2026.  Pe
@@ -701,61 +714,61 @@ umberOfCurrentPlayers \T1/ptm/m/n/9 (+20) and \T1/cmtt/m/n/9 GetNewsForApp\T1/p
 tm/m/n/9 (+20) .  []$\T1/cmtt/m/n/9 https : / /
  []
 
-) [6]
-Underfull \hbox (badness 10000) in paragraph at lines 159--160
+) [7]
+Underfull \hbox (badness 10000) in paragraph at lines 173--174
 \T1/ptm/m/n/10 (+20) Supplementary ar-ti-facts in the repos-i-tory [[]Sotonye e
 t al.[], []2026[]]: val-i-da-tion di-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 159--160
+Underfull \hbox (badness 10000) in paragraph at lines 173--174
 \T1/ptm/m/n/10 (+20) ag-nos-tics (\T1/cmtt/m/n/10 pred_vs_actual.png\T1/ptm/m/n
 /10 (+20) , \T1/cmtt/m/n/10 residuals.png\T1/ptm/m/n/10 (+20) ); the model-ladd
 er bar chart
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 159--160
+Underfull \hbox (badness 10000) in paragraph at lines 173--174
 \T1/ptm/m/n/10 (+20) (\T1/cmtt/m/n/10 report/figures/soha_model_ladder.png\T1/p
 tm/m/n/10 (+20) ); the full 24-row live-week scor-ing ta-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 159--160
+Underfull \hbox (badness 10000) in paragraph at lines 173--174
 \T1/ptm/m/n/10 (+20) ble with per-leg peaks (\T1/cmtt/m/n/10 model/results/live
 _week.csv\T1/ptm/m/n/10 (+20) ); Chronos-2 per-row fore-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 159--160
+Underfull \hbox (badness 10000) in paragraph at lines 173--174
 \T1/ptm/m/n/10 (+20) casts (\T1/cmtt/m/n/10 model/results/chronos_note.txt\T1/p
 tm/m/n/10 (+20) ); recorder health logs for both legs
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 159--160
+Underfull \hbox (badness 10000) in paragraph at lines 173--174
 \T1/ptm/m/n/10 (+20) (\T1/cmtt/m/n/10 data/live/collector_runs.csv\T1/ptm/m/n/1
 0 (+20) , \T1/cmtt/m/n/10 data/live/cloud/\T1/ptm/m/n/10 (+20) ); the sealed fo
 re-cast file it-self
  []
 
 
-Underfull \hbox (badness 1629) in paragraph at lines 159--160
+Underfull \hbox (badness 1629) in paragraph at lines 173--174
 \T1/ptm/m/n/10 (+20) (\T1/cmtt/m/n/10 data/live/forecast_2026-11-09.csv\T1/ptm/
 m/n/10 (+20) , emit-ted 8 Novem-ber 2026 15:59:30 UTC); and the
  []
 
-[7
+[8
 
 ] (./main.aux)
 Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: 71EE45200B0ED8A2B4C4AE69F2DADD56;1769.
  ) 
 Here is how much of TeX's memory you used:
- 14015 strings out of 476025
- 218508 string characters out of 5790017
- 1867388 words of memory out of 5000000
- 33934 multiletter control sequences out of 15000+600000
+ 14034 strings out of 476025
+ 219077 string characters out of 5790017
+ 1868388 words of memory out of 5000000
+ 33948 multiletter control sequences out of 15000+600000
  567856 words of font info for 259 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  75i,8n,76p,1665b,555s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -768,10 +781,10 @@ ocal/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sftt1000.pfb></usr/loc
 al/texlive/2023/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive
 /2023/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2023/texm
 f-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on main.pdf (7 pages, 333932 bytes).
+Output written on main.pdf (8 pages, 468498 bytes).
 PDF statistics:
- 204 PDF objects out of 1000 (max. 8388607)
- 169 compressed objects within 2 object streams
- 37 named destinations out of 1000 (max. 500000)
- 57960 words of extra memory for PDF output out of 61914 (max. 10000000)
+ 216 PDF objects out of 1000 (max. 8388607)
+ 175 compressed objects within 2 object streams
+ 40 named destinations out of 1000 (max. 500000)
+ 57970 words of extra memory for PDF output out of 61914 (max. 10000000)
 
