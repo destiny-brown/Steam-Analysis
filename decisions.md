@@ -4,6 +4,23 @@ One entry per work session. Newest at the top. The next session (human or AI)
 reads this file first, then README.md. The report's method section is a
 cleaned version of this log, not a reconstructed story.
 
+## 2026-11-16 (Monday, report day, afternoon) — Destiny (with AI pair)
+
+Strict-marker review of `main.pdf` produced three critiques; all three applied
+to `main.tex` and recompiled (still exactly 8 pages), commit 3b7e765:
+1. §4.1 now states the test window's two *feature weeks* (19/26 Oct) with the
+   *following* week's peak as each row's target (outcomes 26 Oct-8 Nov), and
+   adds the validation-honesty sentence: validation was calm (baseline lowest,
+   0.0895), so it was used to discriminate among feature models only.
+2. §5.1 ablation claims now scoped to XGBoost (ablation was never run on
+   ridge); momentum-features caveat stated.
+3. §6 conclusion now attributes the calendar/peer finding to the XGBoost
+   ablation, matching §5.1.
+
+Remaining before Tue 23:59 HKT submission: Sienna's and Soha's student IDs in
+the author block (the only blocker); teammates add one live-week sentence each
+to report/01 and report/02.
+
 ## 2026-11-16 (Monday, scoring day) — Destiny (with AI pair)
 
 **The sealed forecast was scored once, today, ~13:10 HKT, against recorder
