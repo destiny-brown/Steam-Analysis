@@ -140,40 +140,71 @@ def main() -> None:
     else:
         print("\nmac/cloud leg peaks agree within 10% on every game with both legs present.")
 
-    fig, ax = plt.subplots(figsize=(6, 6))
     actual = [float(r["actual_log_growth"]) for r in rows]
     pred = [float(r["predicted_log_growth"]) for r in rows]
-    # Zoom to the dense region. Path of Exile (actual +3.05) is 5x beyond the
-    # next-largest value; without zoom the other 23 games collapse into a
-    # corner. PoE is marked with an edge arrow and its exact numbers instead.
     X_LO, X_HI = -0.35, 0.65
+    SHORT = {
+        "Counter-Strike 2": "CS2", "PUBG: BATTLEGROUNDS": "PUBG",
+        "Team Fortress 2": "TF2", "Marvel Rivals": "Marvel Rivals",
+        "THE FINALS": "FINALS", "Destiny 2": "Destiny 2", "Warframe": "Warframe",
+        "HELLDIVERS 2": "HD2", "Left 4 Dead 2": "L4D2",
+        "Grand Theft Auto V": "GTA V", "Rust": "Rust", "Valheim": "Valheim",
+        "Palworld": "Palworld", "Terraria": "Terraria",
+        "Stardew Valley": "Stardew", "ELDEN RING": "ELDEN RING",
+        "Baldur's Gate 3": "BG3", "Path of Exile": "PoE", "Lost Ark": "Lost Ark",
+        "Dead by Daylight": "DbD", "War Thunder": "War Thunder",
+        "NARAKA: BLADEPOINT": "NARAKA", "Dota 2": "Dota 2",
+        "Apex Legends": "Apex",
+    }
+    # Two panels, honest about the outlier: a wide zoomed panel where all 23
+    # ordinary games are labeled, and a narrow full-scale panel where Path of
+    # Exile (+3.05) appears in its true position instead of being hidden.
+    fig = plt.figure(figsize=(11, 5.2))
+    gs = fig.add_gridspec(1, 2, width_ratios=[3.1, 1.0], wspace=0.04)
+    ax = fig.add_subplot(gs[0])
+    ax2 = fig.add_subplot(gs[1], sharey=ax)
+
     ax.scatter(actual, pred, alpha=0.75, zorder=3)
     ax.plot([X_LO, X_HI], [X_LO, X_HI], "r--", alpha=0.5, label="perfect prediction")
     ax.axhline(0, color="gray", lw=0.5)
     ax.axvline(0, color="gray", lw=0.5)
-    for r in rows:
-        a = float(r["actual_log_growth"])
-        if abs(a) > 0.15 and X_LO <= a <= X_HI:
-            ax.annotate(
-                r["name"],
-                (a, float(r["predicted_log_growth"])),
-                fontsize=7, alpha=0.8,
-            )
-    poe = next(r for r in rows if r["name"] == "Path of Exile")
-    ax.annotate(
-        f"Path of Exile: actual {float(poe['actual_log_growth']):+.2f},\n"
-        f"predicted {float(poe['predicted_log_growth']):+.2f} (off scale)",
-        xy=(X_HI - 0.005, float(poe["predicted_log_growth"])),
-        xytext=(0.30, 0.18),
-        arrowprops=dict(arrowstyle="->", color="tab:red", lw=1.2),
-        fontsize=8, color="tab:red",
-    )
+    order = sorted(range(len(rows)), key=lambda i: actual[i])
+    for k, i in enumerate(order):
+        if rows[i]["name"] == "Path of Exile":
+            continue
+        dy = (10, -14, 24, -28)[k % 4]
+        ax.annotate(
+            SHORT[rows[i]["name"]], (actual[i], pred[i]),
+            textcoords="offset points", xytext=(0, dy), ha="center",
+            fontsize=6, alpha=0.85,
+        )
     ax.set_xlim(X_LO, X_HI)
     ax.set_ylim(X_LO, X_HI)
     ax.set_xlabel("Actual log-growth (recorder, 9-15 Nov)")
     ax.set_ylabel("Sealed prediction (emitted 8 Nov)")
-    ax.set_title(f"Sealed forecast vs reality, 24 games\nMAE {model_mae:.4f} vs baseline {base_mae:.4f} (ratio {ratio:.3f})")
-    ax.legend(loc="upper left")
+    ax.set_title("Zoom: 23 of 24 games, all labeled")
+    ax.legend(loc="upper left", fontsize=8)
+
+    ax2.scatter(actual, pred, alpha=0.75, zorder=3)
+    ax2.plot([X_LO, 3.25], [X_LO, 3.25], "r--", alpha=0.5)
+    ax2.axhline(0, color="gray", lw=0.5)
+    ax2.axvline(0, color="gray", lw=0.5)
+    i_poe = next(i for i, r in enumerate(rows) if r["name"] == "Path of Exile")
+    ax2.annotate(
+        f"Path of Exile\nactual {actual[i_poe]:+.2f}\npredicted {pred[i_poe]:+.2f}",
+        (actual[i_poe], pred[i_poe]), textcoords="offset points", xytext=(-72, 30),
+        fontsize=7.5, color="tab:red",
+        arrowprops=dict(arrowstyle="->", color="tab:red", lw=1.1),
+    )
+    ax2.set_xlim(X_LO, 3.25)
+    ax2.set_xlabel("Actual (full scale)")
+    ax2.set_title("Full scale")
+    plt.setp(ax2.get_yticklabels(), visible=False)
+    fig.suptitle(
+        f"Sealed forecast vs reality, 24 games -- MAE {model_mae:.4f} "
+        f"vs baseline {base_mae:.4f} (ratio {ratio:.3f})"
+    )
+    fig.tight_layout(rect=[0, 0, 1, 0.93])
     fig.tight_layout()
     fig.savefig(OUT_PNG, dpi=150)
     plt.close(fig)

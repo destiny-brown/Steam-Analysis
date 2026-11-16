@@ -85,7 +85,7 @@ Week of 19 Oct: own peak +65% week-over-week, peers slightly down. Next week: âˆ
 | Historical test (48 rows) | 0.1263 | 0.1440 | **0.876** |
 | **Sealed live week (24 rows)** | 0.2281 | 0.2190 | **1.041** |
 
-![](figures/live_week_pred_vs_actual.png){width=46%}
+![](figures/live_week_pred_vs_actual.png){width=88%}
 
 ## Anatomy of the miss (Destiny)
 

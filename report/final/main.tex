@@ -101,8 +101,8 @@ Without major-update flags & 0.1334 & 0.926 \\
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.62\linewidth]{figures/pred_vs_actual_test_ridge.png}
-\caption{Ridge, the chosen model, on the one-touch historical test weeks (48 rows). The cloud tracks the perfect-prediction line in the center; errors concentrate in the same right tail as Figure~\ref{fig:surge}.}
+\includegraphics[width=0.62\linewidth]{figures/fig_test_ridge.png}
+\caption{Ridge, the chosen model, on the one-touch historical test weeks (48 rows), with the unchanged-peak baseline shown as the dotted line at zero. Predictions shrink toward the mean: direction right in the center, magnitudes compressed --- the visual reason ridge generalizes yet cannot call a surge.}
 \label{fig:testridge}
 \end{figure}
 
@@ -134,8 +134,8 @@ Sealed live week (24 game-weeks) & 0.2281 & 0.2190 & \textbf{1.041} \\
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.72\linewidth]{figures/live_week_pred_vs_actual.png}
-\caption{Sealed predictions vs.\ recorder reality, 9--15 November. The labeled upper-left outlier is Path of Exile's expansion week --- named in the sealed log before it happened.}
+\includegraphics[width=\linewidth]{figures/live_week_pred_vs_actual.png}
+\caption{Sealed predictions vs.\ recorder reality, 9--15 November. Left: the 23 ordinary games, all labeled. Right: the same data at full scale --- Path of Exile's expansion week (+3.05), named in the sealed log before it happened, in its true position.}
 \label{fig:live}
 \end{figure}
 
