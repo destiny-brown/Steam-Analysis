@@ -1,0 +1,283 @@
+% ELEC3544 course adaptation of the official NeurIPS 2026 LaTeX style.
+% Source: https://media.neurips.cc/Conferences/NeurIPS2026/Formatting_Instructions_For_NeurIPS_2026.zip
+% Original style attribution: Roman Garnett (garnett@wustl.edu) and the many
+% authors of nips15submit_e.sty, including MK and drstrip@sandia.
+% Adapted for ELEC3544, Fall 2026, The University of Hong Kong.
+% Conference options, anonymity, and line numbering removed; title rules retained.
+% Single-column Letter layout, Times typography, and title structure retained.
+% Course margins and heading spacing adjusted for a slightly more compact layout.
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{elec3544_report}[2026/11/09 ELEC3544 final project report]
+\RequirePackage{natbib}
+% fonts
+\renewcommand{\rmdefault}{ptm}
+\renewcommand{\sfdefault}{phv}
+
+% set page geometry
+\usepackage[verbose=true,letterpaper]{geometry}
+\AtBeginDocument{
+  \newgeometry{
+    textheight=9.15in,
+    textwidth=5.8in,
+    left=1.35in,
+    top=0.85in,
+    headheight=12pt,
+    headsep=25pt,
+    footskip=30pt
+  }
+  \@ifpackageloaded{fullpage}
+    {\PackageWarning{elec3544_report}{fullpage package not allowed! Overwriting formatting.}}
+    {}
+}
+
+\widowpenalty=10000
+\clubpenalty=10000
+\raggedbottom
+\sloppy
+
+
+% font sizes with reduced leading
+\renewcommand{\normalsize}{%
+  \@setfontsize\normalsize\@xpt\@xipt
+  \abovedisplayskip      7\p@ \@plus 2\p@ \@minus 5\p@
+  \abovedisplayshortskip \z@ \@plus 3\p@
+  \belowdisplayskip      \abovedisplayskip
+  \belowdisplayshortskip 4\p@ \@plus 3\p@ \@minus 3\p@
+}
+\normalsize
+\renewcommand{\small}{%
+  \@setfontsize\small\@ixpt\@xpt
+  \abovedisplayskip      6\p@ \@plus 1.5\p@ \@minus 4\p@
+  \abovedisplayshortskip \z@  \@plus 2\p@
+  \belowdisplayskip      \abovedisplayskip
+  \belowdisplayshortskip 3\p@ \@plus 2\p@   \@minus 2\p@
+}
+\renewcommand{\footnotesize}{\@setfontsize\footnotesize\@ixpt\@xpt}
+\renewcommand{\scriptsize}{\@setfontsize\scriptsize\@viipt\@viiipt}
+\renewcommand{\tiny}{\@setfontsize\tiny\@vipt\@viipt}
+\renewcommand{\large}{\@setfontsize\large\@xiipt{14}}
+\renewcommand{\Large}{\@setfontsize\Large\@xivpt{16}}
+\renewcommand{\LARGE}{\@setfontsize\LARGE\@xviipt{20}}
+\renewcommand{\huge}{\@setfontsize\huge\@xxpt{23}}
+\renewcommand{\Huge}{\@setfontsize\Huge\@xxvpt{28}}
+
+
+% Force \tiny to be no smaller than 6pt
+\renewcommand{\tiny}{\fontsize{6pt}{7pt}\selectfont}
+
+% Force \scriptsize to be no smaller than 7pt
+\renewcommand{\scriptsize}{\fontsize{7pt}{8pt}\selectfont}
+
+% Force \footnotesize to be no smaller than 8pt
+\renewcommand{\footnotesize}{\fontsize{8pt}{9.5pt}\selectfont}
+
+% sections with less space
+\providecommand{\section}{}
+\renewcommand{\section}{%
+  \@startsection{section}{1}{\z@}%
+                {-1.30ex \@plus -0.32ex \@minus -0.13ex}%
+                { 0.90ex \@plus  0.20ex \@minus  0.13ex}%
+                {\large\bf\raggedright}%
+}
+\providecommand{\subsection}{}
+\renewcommand{\subsection}{%
+  \@startsection{subsection}{2}{\z@}%
+                {-1.15ex \@plus -0.32ex \@minus -0.13ex}%
+                { 0.48ex \@plus  0.13ex}%
+                {\normalsize\bf\raggedright}%
+}
+\providecommand{\subsubsection}{}
+\renewcommand{\subsubsection}{%
+  \@startsection{subsubsection}{3}{\z@}%
+                {-1.00ex \@plus -0.32ex \@minus -0.13ex}%
+                { 0.32ex \@plus  0.13ex}%
+                {\normalsize\bf\raggedright}%
+}
+\providecommand{\paragraph}{}
+\renewcommand{\paragraph}{%
+  \@startsection{paragraph}{4}{\z@}%
+                {1.00ex \@plus 0.32ex \@minus 0.13ex}%
+                {-1em}%
+                {\normalsize\bf}%
+}
+\providecommand{\subparagraph}{}
+\renewcommand{\subparagraph}{%
+  \@startsection{subparagraph}{5}{\z@}%
+                {1.00ex \@plus 0.32ex \@minus 0.13ex}%
+                {-1em}%
+                {\normalsize\bf}%
+}
+\providecommand{\subsubsubsection}{}
+\renewcommand{\subsubsubsection}{%
+  \vskip4.5pt{\noindent\normalsize\rm\raggedright}%
+}
+
+% float placement
+\renewcommand{\topfraction      }{0.85}
+\renewcommand{\bottomfraction   }{0.4}
+\renewcommand{\textfraction     }{0.1}
+\renewcommand{\floatpagefraction}{0.7}
+
+\newlength{\@elecabovecaptionskip}\setlength{\@elecabovecaptionskip}{7\p@}
+\newlength{\@elecbelowcaptionskip}\setlength{\@elecbelowcaptionskip}{\z@}
+
+\setlength{\abovecaptionskip}{\@elecabovecaptionskip}
+\setlength{\belowcaptionskip}{\@elecbelowcaptionskip}
+
+% swap above/belowcaptionskip lengths for tables
+\renewenvironment{table}
+  {\setlength{\abovecaptionskip}{\@elecbelowcaptionskip}%
+   \setlength{\belowcaptionskip}{\@elecabovecaptionskip}%
+   \@float{table}}
+  {\end@float}
+
+% footnote formatting
+\setlength{\footnotesep }{6.65\p@}
+\setlength{\skip\footins}{9\p@ \@plus 4\p@ \@minus 2\p@}
+\renewcommand{\footnoterule}{\kern-3\p@ \hrule width 12pc \kern 2.6\p@}
+\setcounter{footnote}{0}
+
+% paragraph formatting
+\setlength{\parindent}{\z@}
+\setlength{\parskip  }{4.5\p@}
+
+% list formatting
+\setlength{\topsep       }{4\p@ \@plus 1\p@   \@minus 2\p@}
+\setlength{\partopsep    }{1\p@ \@plus 0.5\p@ \@minus 0.5\p@}
+\setlength{\itemsep      }{2\p@ \@plus 1\p@   \@minus 0.5\p@}
+\setlength{\parsep       }{2\p@ \@plus 1\p@   \@minus 0.5\p@}
+\setlength{\leftmargin   }{3pc}
+\setlength{\leftmargini  }{\leftmargin}
+\setlength{\leftmarginii }{2em}
+\setlength{\leftmarginiii}{1.5em}
+\setlength{\leftmarginiv }{1.0em}
+\setlength{\leftmarginv  }{0.5em}
+\def\@listi  {\leftmargin\leftmargini}
+\def\@listii {\leftmargin\leftmarginii
+              \labelwidth\leftmarginii
+              \advance\labelwidth-\labelsep
+              \topsep  2\p@ \@plus 1\p@    \@minus 0.5\p@
+              \parsep  1\p@ \@plus 0.5\p@ \@minus 0.5\p@
+              \itemsep \parsep}
+\def\@listiii{\leftmargin\leftmarginiii
+              \labelwidth\leftmarginiii
+              \advance\labelwidth-\labelsep
+              \topsep    1\p@ \@plus 0.5\p@ \@minus 0.5\p@
+              \parsep    \z@
+              \partopsep 0.5\p@ \@plus 0\p@ \@minus 0.5\p@
+              \itemsep \topsep}
+\def\@listiv {\leftmargin\leftmarginiv
+              \labelwidth\leftmarginiv
+              \advance\labelwidth-\labelsep}
+\def\@listv  {\leftmargin\leftmarginv
+              \labelwidth\leftmarginv
+              \advance\labelwidth-\labelsep}
+\def\@listvi {\leftmargin\leftmarginvi
+              \labelwidth\leftmarginvi
+              \advance\labelwidth-\labelsep}
+
+
+% NeurIPS title and abstract structure retained; course authors are not anonymous.
+\newif\if@anonymous\@anonymousfalse
+% Concise course footer on every page; no page number on the title page.
+\newcommand{\coursefooter}{ELEC3544\enspace\textperiodcentered\enspace HKU\enspace\textperiodcentered\enspace Fall 2026}
+\def\ps@course{%
+  \let\@oddhead\@empty\let\@evenhead\@empty
+  \def\@oddfoot{\normalfont\footnotesize\hfil\coursefooter\hfil\llap{\thepage}}%
+  \let\@evenfoot\@oddfoot
+}
+\def\ps@coursefirst{%
+  \let\@oddhead\@empty\let\@evenhead\@empty
+  \def\@oddfoot{\normalfont\footnotesize\hfil\coursefooter\hfil}%
+  \let\@evenfoot\@oddfoot
+}
+\pagestyle{course}
+% create title
+\providecommand{\maketitle}{}
+\renewcommand{\maketitle}{%
+  \par
+  \begingroup
+    \renewcommand{\thefootnote}{\fnsymbol{footnote}}
+    % for perfect author name centering
+    \renewcommand{\@makefnmark}{\hbox to \z@{$^{\@thefnmark}$\hss}}
+    % The footnote-mark was overlapping the footnote-text,
+    % added the following to fix this problem               (MK)
+    \long\def\@makefntext##1{%
+      \parindent 1em\noindent
+      \hbox to 1.8em{\hss $\m@th ^{\@thefnmark}$}##1
+    }
+    \thispagestyle{coursefirst}
+    \@maketitle
+    \@thanks
+  \endgroup
+  \setcounter{footnote}{0}
+  \let\maketitle\relax
+  \let\thanks\relax
+}
+
+% rules for title box at top of first page
+\newcommand{\@toptitlebar}{
+  \hrule height 4\p@
+  \vskip 0.22in
+  \vskip -\parskip%
+}
+\newcommand{\@bottomtitlebar}{
+  \vskip 0.25in
+  \vskip -\parskip
+  \hrule height 1\p@
+  \vskip 0.04in%
+}
+
+% create title (includes both anonymized and non-anonymized versions)
+\providecommand{\@maketitle}{}
+\renewcommand{\@maketitle}{%
+  \vbox{%
+    \hsize\textwidth
+    \linewidth\hsize
+    \vskip 0.1in
+    \@toptitlebar
+    \centering
+    {\LARGE\bf \@title\par}
+    \@bottomtitlebar
+    \if@anonymous
+      \begin{tabular}[t]{c}\bf\rule{\z@}{24\p@}
+        Anonymous Author(s) \\
+        Affiliation \\
+        Address \\
+        \texttt{email} \\
+      \end{tabular}%
+    \else
+      \def\And{%
+        \end{tabular}\hfil\linebreak[0]\hfil%
+        \begin{tabular}[t]{c}\bf\rule{\z@}{24\p@}\ignorespaces%
+      }
+      \def\AND{%
+        \end{tabular}\hfil\linebreak[4]\hfil%
+        \begin{tabular}[t]{c}\bf\rule{\z@}{24\p@}\ignorespaces%
+      }
+      \begin{tabular}[t]{c}\bf\rule{\z@}{18\p@}\@author\end{tabular}%
+    \fi
+    \vskip 0.16in \@minus 0.05in
+  }
+}
+
+% abstract styling
+\renewenvironment{abstract}%
+{%
+  \vskip 0.06in%
+  \centerline%
+  {\large\bf Abstract\begingroup\renewcommand{\thefootnote}{\fnsymbol{footnote}}\footnotemark[1]\endgroup}%
+  \begingroup
+    \renewcommand{\thefootnote}{\fnsymbol{footnote}}%
+    \footnotetext[1]{Template adapted from the \href{https://media.neurips.cc/Conferences/NeurIPS2026/Formatting_Instructions_For_NeurIPS_2026.zip}{NeurIPS 2026 template}.}%
+  \endgroup
+  \vspace{0.4ex}%
+  \begin{quote}%
+}
+{
+  \par%
+  \end{quote}%
+  \vskip 0.75ex%
+}
+
+\endinput

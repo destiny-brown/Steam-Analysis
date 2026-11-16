@@ -1,0 +1,67 @@
+\begin{thebibliography}{8}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Ansari et~al.(2024)Ansari, Stella, Turkmen, Zhang, Mercado, Shen,
+  Shchur, Rangapuram, Pineda~Arango, Kapoor, Zschiegner, Maddix, Wang, Mahoney,
+  Torkkola, Wilson, Bohlke-Schneider, and Wang]{ansari2024chronos}
+Abdul~Fatir Ansari, Lorenzo Stella, Caner Turkmen, Xiyuan Zhang, Pedro Mercado,
+  Huibin Shen, Oleksandr Shchur, Syama~Sundar Rangapuram, Sebastian
+  Pineda~Arango, Shubham Kapoor, Jasper Zschiegner, Danielle~C. Maddix, Hao
+  Wang, Michael~W. Mahoney, Kari Torkkola, Andrew~Gordon Wilson, Michael
+  Bohlke-Schneider, and Yuyang Wang.
+\newblock Chronos: Learning the language of time series.
+\newblock \emph{Transactions on Machine Learning Research}, 2024.
+\newblock Pretrained checkpoint \texttt{autogluon/chronos-2-small}, accessed 7
+  November 2026.
+
+\bibitem[Chen and Guestrin(2016)]{chen2016xgboost}
+Tianqi Chen and Carlos Guestrin.
+\newblock Xgboost: A scalable tree boosting system.
+\newblock In \emph{Proceedings of the 22nd ACM SIGKDD International Conference
+  on Knowledge Discovery and Data Mining}, pages 785--794, 2016.
+
+\bibitem[Harris et~al.(2020)Harris, Millman, van~der Walt,
+  et~al.]{harris2020numpy}
+Charles~R. Harris, K.~Jarrod Millman, St{\'e}fan~J. van~der Walt, et~al.
+\newblock Array programming with numpy.
+\newblock \emph{Nature}, 585:\penalty0 357--362, 2020.
+
+\bibitem[Hunter(2007)]{hunter2007matplotlib}
+John~D. Hunter.
+\newblock Matplotlib: A 2d graphics environment.
+\newblock \emph{Computing in Science \& Engineering}, 9\penalty0 (3):\penalty0
+  90--95, 2007.
+
+\bibitem[McKinney(2010)]{mckinney2010pandas}
+Wes McKinney.
+\newblock Data structures for statistical computing in python.
+\newblock In \emph{Proceedings of the 9th Python in Science Conference}, pages
+  56--61, 2010.
+
+\bibitem[Sotonye et~al.(2026)Sotonye, Tam, and Ali]{group18repo}
+Brown~Destiny Sotonye, Hoi~Wing Tam, and Soha Ali.
+\newblock Group 18: The sunday forecast --- code, data pipeline and session
+  log.
+\newblock \url{https://github.com/destiny-brown/Steam-Analysis}, 2026.
+\newblock Commit \texttt{6e576b2}, 16 November 2026.
+
+\bibitem[{SteamCharts}(2026)]{steamcharts}
+{SteamCharts}.
+\newblock Steamcharts: Steam player statistics.
+\newblock \url{https://steamcharts.com}, 2026.
+\newblock Per-game \texttt{chart-data.json} histories for 24 app IDs,
+  downloaded 4, 8 and 16 November 2026.
+
+\bibitem[{Valve Corporation}(2026)]{steamwebapi}
+{Valve Corporation}.
+\newblock Steam web api: \texttt{GetNumberOfCurrentPlayers} and
+  \texttt{GetNewsForApp}.
+\newblock \url{https://steamcommunity.com/dev}, 2026.
+\newblock Hourly collection 5--16 November 2026; news metadata accessed
+  October--November 2026.
+
+\end{thebibliography}
