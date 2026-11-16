@@ -44,6 +44,14 @@ the model you actually recommend") then implemented the same afternoon:
 Both PDFs recompiled: main.pdf still exactly 8 pages (supplementary on p.8),
 slides.pdf 15 slides, zero missing-glyph warnings.
 
+Repo cleanup (commit 2aac949): cloud recorder RETIRED — cron trigger removed
+from .github/workflows/collect.yml (workflow kept as artifact, manual
+dispatch only); no more hourly bot commits. .gitignore now excludes the
+course guide PDF, report template docx, checkpoint_destiny.*, .DS_Store, and
+report/final LaTeX build artifacts (main.aux/blg/log/out untracked via
+git rm --cached; main.bbl kept tracked for single-pass compiles). The Mac
+launchd leg still runs locally — harmless, writes only data/live/.
+
 Remaining before Tue 23:59 HKT submission: teammates review both PDFs
 tonight; each adds one live-week sentence to report/01 (Soha) and report/02
 (Sienna) from live_week.csv only.
