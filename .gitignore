@@ -4,3 +4,15 @@ __pycache__/
 data/logs/
 data/live/.collect.lock
 Lecture Notes/
+
+# Keep course materials and checkpoint drafts out of the repo (16 Nov 2026)
+.DS_Store
+ELEC3544_Fall2026_Project_Report_and_Slides_Guide.pdf
+ELEC3544_Fall2026_Report_Template.docx
+checkpoint_destiny.*
+
+# LaTeX build artifacts (main.bbl stays tracked for single-pass compiles)
+report/final/*.aux
+report/final/*.blg
+report/final/*.log
+report/final/*.out

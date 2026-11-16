@@ -4,10 +4,13 @@ name: cloud-collect
 # this workflow writes data/live/cloud/ so pushes never collide. The scored
 # week (9-15 Nov 2026) is covered even if the laptop is asleep. See
 # decisions.md, 2026-11-06.
+#
+# RETIRED 2026-11-16: the scored week ended and live-week scoring completed
+# (model/results/live_week.csv). The cron trigger was removed so the workflow
+# no longer runs hourly; it remains here as the project artifact and can
+# still be run manually via workflow_dispatch.
 
 on:
-  schedule:
-    - cron: "5 * * * *" # UTC, matches collected_at_utc
   workflow_dispatch:
 
 permissions:
